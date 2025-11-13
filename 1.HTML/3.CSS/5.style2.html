@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #img1{
+            float: left;
+            margin-right: 20px;
+            padding-right: 20px;
+            width: 200px;
+            height: 350px;
+            border: 1px dashed red;
+        }
+        #img2{
+            float: right;
+            margin-left: 20px;
+            padding: 10px;
+            width: 200px;
+            height: 350px;
+            border: 1px dotted blue;
+        }
+        
+        .container{
+            border: 3px dotted yellow;
+        }
+        #red{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>이미지를 통한 페이지 흐름 이해하기</h1>
+    <div class="container">
+        <img src="images/겨울1.jpg" id="img1">
+        <img src="images/겨울2.jpg" id="img2">
+        <p>긴 컨텐츠를 추가하기. 긴 컨텐츠를 추가하기. 긴 컨텐츠를 추가하기.</p>
+        <p>Lorem ipsum <span id="red">dolor</span> sit amet consectetur adipisicing elit. Vel, a in reprehenderit quae non ad quos laboriosam at,
+        fuga veritatis saepe expedita eveniet aut libero harum ea earum. Exercitationem, quis.
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cupiditate, aspernatur, aliquam impedit eos laboriosam in
+        asperiores temporibus consectetur repudiandae molestias quisquam nihil modi rerum. Facere perspiciatis vitae
+        pariatur hic itaque!</p>
+    </div>
+</body>
+</html>

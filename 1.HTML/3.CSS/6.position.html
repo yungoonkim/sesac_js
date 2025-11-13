@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            background-color: orange;
+            margin: 5px;
+            color: white;
+        }
+        .move{
+            background-color: orangered;
+            position: relative; /*내가 원래 있던 위치에서 상대적으로 */
+            /* position: absolute; */
+            top: 50px; /*위를 50px만큼 띈다*/
+            left: 50px; /*왼쪽을 50px만큼 띈다*/
+        }
+        .text{
+            position: relative;
+            top: 20px;
+            left: 30px;
+        }
+        .picture{
+            width: 300px;
+            height: 200px;
+            background-image: url(images/겨울1.jpg);
+            background-size: 100% 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>절대위치와 상대위치</h1>
+    <div>1</div>
+    <div class="move">2</div>
+    <div>3</div>
+    <div class="picture"><p class="text">겨울</p></div>
+</body>
+</html>
