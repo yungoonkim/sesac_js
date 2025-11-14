@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko"> <!--기능x 표기 브라우저로 언어 골라주는-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .square{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            transition-property: width, height; /*내가 어디에 변화를 줄건지 정의*/
+            transition-duration: 1s;            /*변화를 2초에 걸쳐서 준다*/
+        }
+        .square:hover{                          /*마우스가 올라간걸 뜻하는 기술용어*/
+            width: 250px;
+            height: 150px;
+        }
+        .button{
+            color: black;
+            transition-property: color;     /* 뭘 바꿀거냐 */
+            transition-duration: 1s;
+            transition-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+        }
+        .button:hover{
+            color: red;
+        }
+        .image{
+            width: 200px;
+            transition-property: transform;
+            transition-duration: 1s;
+        }
+        .image:hover{
+            /* transform: rotate(180deg); */
+            transform: translateX(100px) translateY(50px);
+        }
+    </style>
+</head>
+<body>
+    <div class="square"></div>
+    <hr>
+    <button class="button">Hover me(마우스 오버)</button>
+    <hr>
+    <img class="image" src="images/겨울2.jpg" alt="겨울 이미지">
+</body>
+</html>
