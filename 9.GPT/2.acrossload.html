@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>길건너 친구들</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="score-level">점수: 0 | 레벨: 1</div>
+        <div id="player"></div>
+
+        <!-- overlay 시작 화면 / 닉네임 입력 -->
+        <div id="overlay">
+            <p id="overlay-text">새로운 게임 시작</p>
+            <input type="text" id="nickname" placeholder="닉네임 입력">
+            <button id="start">시작</button>
+            <div id="leaderboard"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
