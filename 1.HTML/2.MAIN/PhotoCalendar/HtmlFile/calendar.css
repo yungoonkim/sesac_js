@@ -1,0 +1,27 @@
+.uniform-img{
+    width: 600px;
+    height: 600px;
+    object-fit: cover;
+}
+.center{
+    text-align: center;
+}
+#calendar{
+    width: 100%;
+    border-collapse: collapse;
+}
+#sunday{
+    color: red; 
+}
+#saturday{
+    color: blue;
+}
+th, td{
+    width: 14%;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid black;
+}
+th{
+    background-color: rgb(179, 159, 159);
+}
