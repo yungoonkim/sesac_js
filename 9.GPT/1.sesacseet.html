@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>좌석 배치 UI</title>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+    padding: 30px;
+    text-align: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #1e3c72;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+#nameInput { margin-bottom: 25px; }
+
+input[type="text"] {
+    padding: 12px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    width: 220px;
+    outline: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+button {
+    padding: 12px 20px;
+    margin-left: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+#nameList {
+    margin-top: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+#seats {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+/* 위 두 줄 4명씩 붙어있는 디자인 */
+.row-4-container {
+    display: flex;
+    gap: 50px; /* 두 블록 사이 공간 */
+}
+
+.row-4 {
+    display: flex;
+    gap: 10px;
+    background: rgba(255,255,255,0.9);
+    padding: 20px 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* 아래 5명 좌석 줄 */
+.row-5 {
+    display: flex;
+    gap: 10px;
+    background: rgba(255,255,255,0.9);
+    padding: 20px 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.seat {
+    width: 90px;
+    height: 90px;
+    background: #e3f2fd;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a237e;
+    border: 2px solid #90caf9;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.seat.filled {
+    background: #64b5f6;
+    color: #fff;
+    border-color: #1976d2;
+    transform: scale(1.05);
+}
+
+@media(max-width: 500px){
+    .seat { width: 70px; height: 70px; font-size: 14px; }
+    .row-4, .row-5 { padding: 15px 20px; gap: 8px; }
+    .row-4-container { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<h1>좌석 배치 UI</h1>
+
+<div id="nameInput">
+    <input type="text" id="studentName" placeholder="학생 이름 입력" />
+    <button onclick="addRandomStudent()">추가 & 랜덤 배치</button>
+    <button onclick="saveScreenshot()">완료(스크린샷 저장)</button>
+    <div id="nameList">현재 인원: 0명</div>
+</div>
+
+<div id="seats">
+    <div class="row-4-container">
+        <div class="row-4">
+            <div class="seat" id="s1"></div>
+            <div class="seat" id="s2"></div>
+            <div class="seat" id="s3"></div>
+            <div class="seat" id="s4"></div>
+        </div>
+        <div class="row-4">
+            <div class="seat" id="s5"></div>
+            <div class="seat" id="s6"></div>
+            <div class="seat" id="s7"></div>
+            <div class="seat" id="s8"></div>
+        </div>
+    </div>
+    <div class="row-5">
+        <div class="seat" id="s9"></div>
+        <div class="seat" id="s10"></div>
+        <div class="seat" id="s11"></div>
+        <div class="seat" id="s12"></div>
+        <div class="seat" id="s13"></div>
+    </div>
+</div>
+
+<script>
+let students = [];
+let seatIds = Array.from({length:13}, (_,i)=>i+1);
+
+function addRandomStudent() {
+    const name = document.getElementById("studentName").value.trim();
+    if(!name){ alert("이름을 입력하세요!"); return; }
+    if(students.length >= 13){ alert("좌석이 모두 찼습니다!"); return; }
+
+    const emptySeats = seatIds.filter(id=>{
+        const seat = document.getElementById("s"+id);
+        return seat.innerText === "";
+    });
+
+    const randomIndex = Math.floor(Math.random() * emptySeats.length);
+    const seatId = emptySeats[randomIndex];
+    const seat = document.getElementById("s"+seatId);
+    seat.innerText = name;
+    seat.classList.add("filled");
+
+    students.push(name);
+    document.getElementById("studentName").value="";
+    updateNameList();
+}
+
+function updateNameList(){
+    document.getElementById("nameList").innerText =
+        `현재 인원: ${students.length}명 (${students.join(", ")})`;
+}
+
+function saveScreenshot(){
+    if(students.length === 0){ alert("학생이 한 명도 없습니다!"); return; }
+    const seatsDiv = document.getElementById("seats");
+    html2canvas(seatsDiv, {
+        scale: window.devicePixelRatio,
+        useCORS: true,
+        backgroundColor: "#ffffff"
+    }).then(canvas=>{
+        const link = document.createElement("a");
+        link.download = "seat_screenshot.jpg";
+        link.href = canvas.toDataURL("image/jpeg", 0.95);
+        link.click();
+    });
+}
+</script>
+
+</body>
+</html>
