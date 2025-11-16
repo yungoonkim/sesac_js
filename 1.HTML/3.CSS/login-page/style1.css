@@ -1,0 +1,177 @@
+/* 기본 스타일 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: #ffffff;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;  /* vh:viewport height */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===== 배경 ===== */
+.bg-wrapper {
+    position: absolute;
+    inset: 0;
+}
+
+.tri-top-left {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+    rgba(180, 86, 243, 0.8) 0%, 
+    rgba(196, 153, 245, 0.7) 30%, 
+    rgba(219, 205, 243, 0) 25%);
+   
+}
+
+.tri-top-right {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(225deg, 
+    rgba(87, 213, 233, 0.8) 0%, 
+    rgba(95, 203, 218, 0.7) 30%, 
+    rgba(202, 234, 238, 0) 25%);
+   
+}
+
+.tri-bottom-left {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(315deg, 
+    rgba(230, 170, 195, 0.8) 0%, 
+    rgba(216, 133, 167, 0.7) 30%, 
+    rgba(231, 219, 224, 0) 25%);
+
+}
+
+.tri-bottom-right {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg,
+    rgba(187, 179, 161, 0.8) 0%,   
+    rgba(158, 129, 97, 0.7) 30%,   
+    rgba(158, 129, 97, 0) 25%);      
+}
+
+/* ===== 로그인 카드 ===== */
+.login-card {
+  position: relative;
+  z-index: 10;
+
+  background: white;
+  padding: 48px;
+  border-radius: 24px;
+
+  width: 100%;
+  max-width: 400px;
+
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.login-card h1 {
+  color: #333;
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 32px;
+}
+
+/* ===== 입력창 ===== */
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 14px 16px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 24px;
+  background: transparent;
+  font-size: 15px;
+  color: #333;
+}
+
+input:focus {
+  outline: none;
+  border-bottom-color: #a855f7;
+} 
+
+/* ===== 옵션줄 ===== */
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.remember {
+  font-size: 14px;
+  color: #555;
+}
+
+.forgot {
+  font-size: 14px;
+  color: #a855f7;
+  text-decoration: none;
+}
+
+.forgot:hover {
+  text-decoration: underline;
+}
+
+/* ===== 버튼 ===== */
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 9999px;
+
+  background: linear-gradient(to right, #a855f7, #ec4899);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+  background: linear-gradient(to right, #9333ea, #db2777);
+}
+
+/* ===== 하단 링크 ===== */
+.footer-text {
+  margin-top: 32px;
+  text-align: center;
+  color: #555;
+  font-size: 14px;
+}
+
+.footer-text a {
+  color: #a855f7;
+  text-decoration: none;
+}
+
+.footer-text a:hover {
+  text-decoration: underline;
+}
