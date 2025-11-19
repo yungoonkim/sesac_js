@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <style>
+        #title{
+            color: red;
+        }
+    </style> -->
+</head>
+<body>
+    <h1 id="title">헬로우 DOM 버튼</h1>
+    <button onclick="changeColor()">색상바꾸기</button>
+
+    <script>
+        function changeColor(){
+            // console.log("색상 바꾸기");
+            let heading = document.getElementById("title");
+            // console.log(heading);
+            heading.style.color = 'red';
+            //배경색
+            heading.style.backgroundColor = 'yellow';
+            heading.style.width = '300px';
+            
+        }
+    </script>
+</body>
+</html>

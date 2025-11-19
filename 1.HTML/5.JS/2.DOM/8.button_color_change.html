@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1{
+            color: green;
+            background-color: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">헬로우 DOM 버튼</h1>
+    <button onclick="changeColorRed()">빨강</button>
+    <button onclick="changeColorBlue()">파랑</button>
+    <button onclick="changeClear()">초기화</button>
+
+    <script>
+        let heading = document.getElementById("title");
+        
+        function changeColorRed(){
+            heading.style.color = 'red';
+            heading.style.backgroundColor = 'yellow';
+            heading.style.width = '300px';
+        }
+        function changeColorBlue(){
+            heading.style.color = 'blue';
+            heading.style.backgroundColor = 'skyblue';
+            heading.style.width = '300px';
+        }
+        function changeClear(){
+           heading.removeAttribute("style");
+        }
+      
+
+    </script>
+</body>
+</html>
