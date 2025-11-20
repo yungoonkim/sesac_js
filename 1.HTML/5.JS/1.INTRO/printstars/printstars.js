@@ -8,7 +8,6 @@ function printStars1() {
                     output += '*';
                 }
             }
-
             document.getElementById("stars").innerHTML = output;
         }
 
@@ -54,6 +53,5 @@ function printStars1() {
                     output += '*';
                 }
             }
-
             document.getElementById("stars").innerHTML = output;
         }
