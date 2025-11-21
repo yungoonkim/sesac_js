@@ -1,0 +1,54 @@
+*,
+*::before,
+*::after {
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+.container{
+    width: 50%;
+    margin: 20px auto;
+    font-family: sans-serif;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: gray;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+input{
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 10px 0px;
+    padding-left: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: rgb(194, 131, 13);
+    background-color: rgb(5, 210, 246);
+    opacity: 0.6;
+}
+
+button{
+    font-size: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgb(222, 222, 222);
+    cursor: pointer;
+}
+
+button.active{
+    background-color: rgb(180, 180, 255);
+    transform: scale(0.95);
+}
