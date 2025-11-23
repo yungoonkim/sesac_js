@@ -1,38 +1,60 @@
 let textcontent = document.getElementById("resultText");
-textcontent.value = "";
+let convArr = [];
+let numArr = [];
+let operatorArr = [];
+
+textcontent.value = 0;
         
 function clickedButton(btn){
-
+    
     btn.classList.add("active");
     // 0.2초 후 원래 상태로
     setTimeout(() => {
     btn.classList.remove("active");
     }, 200); // 200ms = 0.2
 
-    let result = document.getElementsByTagName("button");
-
     if(btn.innerText !== "=" && btn.innerText !== "C"){
-        textcontent.value += btn.innerText;
+        if(textcontent.value == '0') { textcontent.value = btn.innerText; }
+        else { textcontent.value += btn.innerText; }
     }
     else if(btn.innerText == "C"){
-        textcontent.value = "";
+        textcontent.value = 0;
+        convArr = [];
+        numArr = [];
+        operatorArr = [];
     }
 
     let string = textcontent.value;
 
+    if(btn.innerText == '+' || btn.innerText == '-' || btn.innerText == '*' || btn.innerText == '/' || btn.innerText == '='){
+        
+        convArr = conversion(string);
+        console.log(convArr);
+        numArr = convArr[0];
+        operatorArr = convArr[1];
+        console.log("연산자 길이:" + operatorArr.length);
+
+    }
+
+    if(operatorArr.length > 1){
+        let calcResult = calculate(numArr, operatorArr[0]);
+        numArr.splice(0, 2);
+        numArr.unshift(calcResult);
+        operatorArr.shift();
+
+        displayResult(calcResult, operatorArr[0]);
+    }
+
     if(btn.innerText == "="){ 
-        //문자열->문자 단위로 변환 함수 필요
-        let convArray = conversion(string);
-        let arr = convArray[0];
-        let operator = convArray[1];
-    
-        let dpResult = calculate(arr, operator);
-        displayResult(dpResult);
+        console.log("log inner '='" + numArr);
+        let dpResult = calculate(numArr, operatorArr[0]);
+        console.log(dpResult);
+        displayResult(dpResult, "");
     }
 }
 
 function conversion(string){
-    //1.정규식 사
+    //1.정규식 사용
     //let arr = string.match(/\d+|[+\-*/]/g);
     // 1.\d+
     //   \d  :   숫자 0~9
@@ -47,9 +69,12 @@ function conversion(string){
     // 4.g 플래그
     //   g->global, 문자열 전체에서 반복 매칭
     //   없으면 첫 번째 매칭만 반
+
+
     //2.반복문 사용
     let temp = string;
     let arr = [];
+    let charArr = [];
     let num ="";
     let operator ="";
     const compareNum = "0123456789";
@@ -60,22 +85,24 @@ function conversion(string){
         }
         else{
             operator = temp[i];
-            if(num !== "") {arr.push(num);}
+            charArr.push(temp[i]);
+            if(num !== "") { arr.push(num); }
             num = "";
         }
     }
-    if(num !=="") {arr.push(num);}
-    return [arr, operator];
+    console.log(charArr);
+    if(num !=="") { arr.push(num); }
+    return [arr, charArr];
 }
 
-function calculate(arr, operator){
+function calculate(arr, operator){  
     let tempArr = arr;
     let result = 0;
    if(operator == '+')      { result = add(tempArr[0], tempArr[1]); }
    else if(operator == '-') { result = sub(tempArr[0], tempArr[1]); }
    else if(operator == '*') { result = mul(tempArr[0], tempArr[1]); }
    else if(operator == '/') { result = div(tempArr[0], tempArr[1]); }
-   
+
    return result;
 }
 
@@ -95,7 +122,6 @@ function sub(x ,y){
     return Number(x) - Number(y);
 }
 
-function displayResult(result){
-    //console.log(result);
-    textcontent.value = result;
+function displayResult(result, operator){
+    textcontent.value = result + operator;
 }
