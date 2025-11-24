@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input{
+            width: 150px;
+        }
+        #progressBar{
+            width: 100%;
+            background-color: #f3f3f3;
+        }
+        #progress{
+            width: 1px;
+            height: 30px;
+            background-color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <h1>프로그레스 바 타이머</h1>
+    <input id="timeInput" type="number" placeholder="초를 입력하세요" min="2" max="10">
+    <button onclick="startProgress()" id="startButton">시작</button>
+    <button onclick="resetProgress()" id="resetButton">초기화</button>
+    <div id="progressBar">
+        <div id="progress"></div>
+    </div>
+
+    <script>
+
+        let timerId;
+       
+        function startProgress(){
+            const timeInput = document.getElementById("timeInput").value;
+            let progressBar = document.getElementById("progress");
+            if(timerId) { clearInterval(timerId); }
+          
+            console.log(timeInput);
+
+            let progress = (100 / timeInput);
+            progressBar.style.width = `${progress}%`;   //포멧 스트링을 통한 뉴 스타일
+
+            let timePassed = 0;
+            timerId = setInterval(() => {
+
+                timePassed++;
+                progress = (100 / timeInput) * timePassed;
+                progressBar.style.width = `${progress}%`;
+
+                if(progress >= 100){
+                    console.log("프로그레스 조건");
+                    clearInterval(timerId);
+                }
+            }, 1000);
+          
+        }
+
+        function resetProgress(){
+            document.getElementById("timeInput").value = "";
+            let progressBar = document.getElementById("progress");
+            progressBar.style.width = "1px";
+        }
+        
+    </script>
+</body>
+</html>

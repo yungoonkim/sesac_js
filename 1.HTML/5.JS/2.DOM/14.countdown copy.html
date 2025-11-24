@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>카운트다운 타이머</h1>
+    <input type="number" id="timeInput" placeholder="초 입력하시오">
+    <button id="startButton" onclick="countTimer()">시작</button><br>
+    <idv id="display"></idv>
+    
+    <script>
+        let timerId;
+        function countTimer(){
+            let countNumber = document.getElementById("timeInput").value;
+            const displayResult = document.getElementById("display");
+            const startBtn = document.getElementById("startButton");
+            startBtn.disabled = true;
+
+
+            timerId = setInterval(() =>{
+
+                displayResult.textContent = `${countNumber}초 남았습니다.`;
+                
+                if(countNumber <= 0){
+                    displayResult.textContent = `Time's up!`;
+                    clearInterval(timerId);
+                    startBtn.disabled = false;
+                }
+                countNumber--;
+
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
