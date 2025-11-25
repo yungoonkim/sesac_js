@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        
+
+        #dragItem{
+            width: 100px;
+            height: 100px;
+            background-color: #ffcc00;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            z-index: 1;
+        }
+
+
+        .placeholder{
+            position: absolute;
+            color: #999;
+        }
+
+        .container{
+
+            width: 200px;
+            height: 200px;
+            background-color: #f0f0f0;
+            border: 2px dashed #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 20px;
+
+        }
+
+        #gird-wrapper{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 450px;
+        }
+
+        
+
+    </style>
+</head>
+<body>
+    <h1>드래그 앤 드롭</h1>
+
+    <div id="gird-wrapper">
+
+        <div id="startZone" class="container">
+            <span class="placeholder" id="startPlaceholder">Drop here(SZ)</span>
+            <div id="dragItem" draggable="true">드래그 미</div>
+        </div>
+    
+        <div id="dropZone1" class="container">
+            <span class="placeholder" id="dropPlaceholder">Drop here(DZ1)</span>
+        </div>
+    
+        <div id="dropZone2" class="container">
+            <span class="placeholder" id="dropPlaceholder">Drop here(DZ2)</span>
+        </div>
+    
+        <div id="dropZone3" class="container">
+            <span class="placeholder" id="dropPlaceholder">Drop here(DZ3)</span>
+        </div>
+
+    </div>
+
+
+    <script>
+        const dragItem = document.getElementById("dragItem");
+        const dropZone1 = document.getElementById("dropZone1");
+        const dropZone2 = document.getElementById("dropZone2");
+        const dropZone3 = document.getElementById("dropZone3");
+        const startZone = document.getElementById("startZone");
+
+        dragItem.addEventListener('dragstart', ()=>{
+            console.log("드래그 시작");
+        });
+
+        // [dropZone1, dropZone2, dropZone3, startZone].forEach(zone =>{
+        //     zone.addEventListener('dragover', (event)=>{
+        //         event.preventDefault();
+        //         console.log("드래그..");
+        //     });
+        // });
+
+        // [dropZone1, dropZone2, dropZone3, startZone].forEach(zone => {
+        //     zone.addEventListener('drop', (event)=>{
+        //         event.preventDefault();
+        //         console.log("드롭");
+        //         zone.appendChild(dragItem);
+        //     });
+        // });
+
+        [dropZone1, dropZone2, dropZone3, startZone].forEach(zone => {
+            
+            zone.addEventListener('dragover', (event) =>{ event.preventDefault(); });
+
+            zone.addEventListener('drop', (event)=>{
+                event.preventDefault();
+                console.log("드롭");
+                zone.appendChild(dragItem);
+            });
+        });
+
+        </script>
+
+</body>
+</html>
