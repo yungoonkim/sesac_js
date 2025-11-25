@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function abc{
+            const input = document.getElementById("letterInput");
+            const button = document.getElementById("guessBtn");
+
+            let char = 97;
+            for(let i = 0; i< 25; i++){
+                input.value = String.fromCharCode(char + i);
+                button.click();
+                console.log(input.value);
+            }
+        }
+    </script>
+</body>
+</html>

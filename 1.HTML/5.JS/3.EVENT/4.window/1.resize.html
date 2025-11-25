@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>윈도우 리사이즈 이벤트</h1>
+    <script>
+        window.addEventListener("resize", ()=>{
+            console.log("윈도우 창 크기가 변하는중...");
+            const width = window.innerWidth;
+            const heigt = window.innerHeight;
+            console.log(`윈도우 사이즈가 ${width} x ${heigt}로 변경되었습니다.`);
+        });
+
+        //window.resizeTo(800, 600);    //과거에는 바꿀 수 있었지만 지금은 안된다..
+                                        //이게 이제 각종 광고와 악성 코드 사이트가 악용을 하다보니 이런것들이 다시 막히게 되었다..
+        
+    </script>
+</body>
+</html>
