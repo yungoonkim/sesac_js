@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .gallery img{
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #large-image{
+            display: none;
+            margin: 20px auto;
+            width: 50%;
+            
+        }
+        
+
+    </style>
+</head>
+<body>
+    <h1>이미지 갤러리</h1>
+    <div class="gallery">
+        <img src="pome1.jpg" id="img1">
+        <img src="pome2.jpg" id="img2">
+        <img src="pome3.jpg" id="img3">
+    </div>
+    <!-- 방법1. -->
+    <img id="large-image" src="" alt="큰 이미지">
+    
+
+    <script>
+        //large-image를 사용해서..JS로 클릭한 이미지를 저기 보이게한다.
+        const img1 = document.getElementById('img1');
+        const img2 = document.getElementById('img2');
+        const img3 = document.getElementById('img3');
+        const largeImg = document.getElementById('large-image');
+       
+
+        [img1, img2, img3].forEach((img) =>{
+            img.addEventListener('click', ()=>{
+                largeImg.src = img.src;
+                largeImg.style.display = "block";
+            });
+        });
+    </script>
+
+</body>
+</html>

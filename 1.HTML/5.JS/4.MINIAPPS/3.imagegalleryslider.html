@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container button{
+            
+            border: none;
+            font-size: 18px;
+
+        }
+
+        #large-image{
+            display: block;
+            margin: 20px auto;
+            width: 50%;
+            animation-name: slider;
+            animation-duration: 2s;
+            animation-timing-function: linear;
+            animation-play-state: paused;
+        }
+        @keyframes slider {
+            0%{
+                transform: translateX(0%);
+                
+            }
+            33%{
+                transform: translateX(33%);
+                opacity: 0.7;
+               
+            }
+            66%{
+                transform: translateX(66%);
+                opacity: 0.8;
+            }
+            100%{
+                transform: translateX(100%);
+                opacity: 0.9;
+            }
+        }
+       
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="large-image" src="pome1.jpg" alt="큰 이미지">
+        <button id="previousBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+    </div>
+
+    <script>
+        
+        const largeImg = document.getElementById('large-image');
+        const preButton = document.getElementById('previousBtn');
+        const nextButton = document.getElementById('nextBtn');
+        const temp = largeImg.getAnimations();
+        
+        console.log(temp[0]);
+
+        preButton.addEventListener('click', (event)=>{
+            event.preventDefault();
+            temp[1].play();
+            let fileName = largeImg.src.slice(-9);
+            
+            if(largeImg.src == undefined){
+                console.log("이미지 소스가 없음.");
+            }
+            else if(fileName == "pome1.jpg"){
+                largeImg.src = "pome3.jpg";
+                console.log("이미지1");
+            }
+            else if(fileName == "pome2.jpg"){
+                largeImg.src = "pome1.jpg";
+                console.log("이미지2");
+            }
+            else if(fileName == "pome3.jpg"){
+                largeImg.src = "pome2.jpg";
+                console.log("이미지3");
+            }
+        });
+
+        nextButton.addEventListener('click', ()=>{
+            temp[0].play();
+            
+            let fileName = largeImg.src.slice(-9);
+
+            if(largeImg.src == undefined){
+                console.log("이미지 소스가 없음.");
+            }
+            else if(fileName == "pome1.jpg"){
+                largeImg.src = "pome2.jpg";
+                console.log("이미지1");
+            }
+            else if(fileName == "pome2.jpg"){
+                largeImg.src = "pome3.jpg";
+                console.log("이미지2");
+            }
+            else if(fileName == "pome3.jpg"){
+                largeImg.src = "pome1.jpg";
+                console.log("이미지3");
+            }
+        });
+
+
+       
+    </script>
+
+</body>
+</html>

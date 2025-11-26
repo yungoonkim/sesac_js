@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .gallery img{
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #large-image{
+            display: none;
+            margin: 20px auto;
+            width: 50%;
+            animation-name: slider;
+            animation-duration: 2s;
+            animation-timing-function: linear;
+        }
+       
+
+    </style>
+</head>
+<body>
+    <h1>이미지 갤러리</h1>
+    <div class="gallery">
+        <img src="pome1.jpg" id="img1">
+        <img src="pome2.jpg" id="img2">
+        <img src="pome3.jpg" id="img3">
+    </div>
+    <!-- 방법1. -->
+    <img id="large-image" src="" alt="큰 이미지">
+    <div id="textInput"></div>
+    <button id="previousBtn">Previous</button>
+    <button id="nextBtn">Next</button>
+
+    <script>
+        //large-image를 사용해서..JS로 클릭한 이미지를 저기 보이게한다.
+        const img1 = document.getElementById('img1');
+        const img2 = document.getElementById('img2');
+        const img3 = document.getElementById('img3');
+        const largeImg = document.getElementById('large-image');
+       
+
+        [img1, img2, img3].forEach((img) =>{
+            img.addEventListener('click', ()=>{
+                largeImg.src = img.src;
+                largeImg.style.display = "block";
+            });
+        });
+       
+    
+        //////////////////////////////////////////////////////////
+        const preButton = document.getElementById('previousBtn');
+        const nextButton = document.getElementById('nextBtn');
+        let textInput = document.getElementById('textInput');
+        //console.log(largeImg.src);
+        
+        //console.log(temp);
+
+        
+
+        preButton.addEventListener('click', ()=>{
+            console.log(largeImg.src);
+            let fileName = largeImg.src.slice(-9);
+            console.log(fileName);
+            if(largeImg.src == undefined){
+                console.log("이미지 소스가 없음.");
+            }
+            else if(fileName == "pome1.jpg"){
+                largeImg.src = "pome3.jpg";
+                textInput.textContent = "pome3.jpg";
+                console.log("이미지1");
+            }
+            else if(fileName == "pome2.jpg"){
+                largeImg.src = "pome1.jpg";
+                textInput.textContent = "pome1.jpg";
+                console.log("이미지2");
+            }
+            else if(fileName == "pome3.jpg"){
+                largeImg.src = "pome2.jpg";
+                textInput.textContent = "pome2.jpg";
+                console.log("이미지3");
+            }
+        });
+
+        nextButton.addEventListener('click', ()=>{
+
+            // largeImg.style.animationName = "slider";
+            // largeImg.style.animationDuration = "2s";
+            // largeImg.style.animationTimingFunction = "linear";
+            
+
+            // console.log(document.styleSheets);
+            // for(let style of document.styleSheets){
+            //     for(let rule of style.cssRules){
+            //         if(rule.type === CSSRule.KEYFRAMES_RULE){
+            //             console.log("keyframe-name: ", rule.name);
+            //         }
+            //     }
+            // }
+
+            let fileName = largeImg.src.slice(-9);
+
+            if(largeImg.src == undefined){
+                console.log("이미지 소스가 없음.");
+            }
+            else if(fileName == "pome1.jpg"){
+                largeImg.src = "pome2.jpg";
+                textInput.textContent = "pome2.jpg";
+                console.log("이미지1");
+            }
+            else if(fileName == "pome2.jpg"){
+                largeImg.src = "pome3.jpg";
+                textInput.textContent = "pome3.jpg";
+                console.log("이미지2");
+            }
+            else if(fileName == "pome3.jpg"){
+                largeImg.src = "pome1.jpg";
+                textInput.textContent = "pome1.jpg";
+                console.log("이미지3");
+            }
+        });
+
+
+       
+    </script>
+
+</body>
+</html>

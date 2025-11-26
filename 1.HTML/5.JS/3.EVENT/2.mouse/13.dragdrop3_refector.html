@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        #dragItem{
+        #dragItem {
             width: 100px;
             height: 100px;
             background-color: #ffcc00;
@@ -17,12 +18,12 @@
             z-index: 1;
         }
 
-        .placeholder{
+        .placeholder {
             position: absolute;
             color: #999;
         }
 
-        .container{
+        .container {
             width: 200px;
             height: 200px;
             background-color: #f0f0f0;
@@ -35,6 +36,7 @@
         }
     </style>
 </head>
+
 <body>
     <h1>드래그 앤 드롭</h1>
 
@@ -53,19 +55,19 @@
         const dropZone = document.getElementById("dropZone");
         const startZone = document.getElementById("startZone");
 
-        dragItem.addEventListener('dragstart', ()=>{
+        dragItem.addEventListener('dragstart', () => {
             console.log("드래그 시작");
         });
 
-        [dropZone, startZone].forEach(zone =>{
-            zone.addEventListener('dragover', (event)=>{
-                event.preventDefault();             
+        [dropZone, startZone].forEach(zone => {
+            zone.addEventListener('dragover', (event) => {
+                event.preventDefault();
                 console.log("드래그..");
             });
         });
 
         [dropZone, startZone].forEach(zone => {
-            zone.addEventListener('drop', (event)=>{
+            zone.addEventListener('drop', (event) => {
                 event.preventDefault();
                 console.log("드롭");
                 zone.appendChild(dragItem);
@@ -74,4 +76,5 @@
     </script>
 
 </body>
+
 </html>

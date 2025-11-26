@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *,
+        *::after,
+        *::before{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container{
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container #timedisplay{
+            font-size: 30px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid black;
+            border-radius: 10px;
+            background-color: lightgray;
+        }
+
+        .container .buttons{
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .container button{
+            font-size: 18px;
+            padding: 5px, 20px;
+            cursor: pointer;
+
+            border: none;
+            border-radius: 10px;
+        }
+
+        .container 
+        #startButton, 
+        #stopButton, 
+        #resetButton{
+            padding: 20px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div  id="timedisplay">00:00.00</div>
+
+        <div class="buttons">
+            <button id="startButton">Start</button>
+            <button id="stopButton">Stop</button>
+            <button id="resetButton">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('startButton');
+        const stopBtn = document.getElementById('stopButton');
+        const resetBtn = document.getElementById('resetButton');
+        let time = document.getElementById('timedisplay');
+        let timerId;
+        let millisec = 0, sec = 0, min = 0;
+        
+        
+        startBtn.addEventListener('click', ()=>{ 
+
+            startBtn.disabled = true;
+           
+            timerId = setInterval(()=>{
+                time.textContent = `${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}.${String(millisec).padStart(2,'0')}`;
+                if(millisec >= 100){
+                    millisec = 0;
+                    sec +=1;
+                }
+
+                if(sec >= 60){
+                    sec = 0;
+                    min += 1;
+                }
+
+                millisec++;
+            }, 10);
+            
+            
+        });
+
+        stopBtn.addEventListener('click', ()=>{
+            clearInterval(timerId);
+            startBtn.disabled = false;
+        });
+
+        resetBtn.addEventListener('click', ()=>{
+            if(timerId){ 
+                clearInterval(timerId);
+                timerId = null;
+            }
+            time.textContent = `00:00.00`;
+            millisec = 0, sec = 0, min = 0;
+            startBtn.disabled = false;
+        });
+
+
+    </script>
+</body>
+</html>
