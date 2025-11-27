@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .buttons button{
+            display: none;
+        }
+
+        #todo-list > li{
+            cursor: pointer;
+        }
+
+        .completed{
+
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>투두리스트</h1>
+    <input type="text" id="new-todo" placeholder="할일을 입력하시오">
+    <button id="add-todo">입력</button>
+    <!-- 할일들을 아래에 표시할 예정 -->
+    <ul id="todo-list"></ul>   
+
+    <script>
+        //1. 버튼 가져온다.
+        const addBtn = document.getElementById('add-todo');
+        let completed = false;
+
+        //2. 버튼 클릭 동작시킴
+        addBtn.addEventListener('click', () => {
+
+            //3. 입력 항목 가져옴
+            const newTodo = document.getElementById('new-todo');
+
+            //4.새로운 li를 만든다.
+            //5.ul에 추가한다.
+            const new_li = document.createElement('li');
+            const todoList = document.getElementById('todo-list');
+
+            if (newTodo.value !== '') {
+                console.log(newTodo.value);
+                new_li.textContent = newTodo.value;
+                todoList.appendChild(new_li);
+                new_li.innerHTML = `${newTodo.value} <button id="modifyBtn">수정</button><button id="deleteBtn">삭제</button>`;
+                newTodo.value = '';
+
+                new_li.addEventListener('click', ()=>{
+                    // if(new_li.classList.contains('completed')){
+                    //     new_li.classList.remove('completed');
+                    // }
+                    // else{
+                    //     new_li.classList.add('completed');
+                    // }
+                    new_li.classList.toggle('completed');
+                    
+                });
+
+            }
+            else {
+                console.log("빈 값을 입력함.");
+                return;
+            }
+            
+            
+
+        });
+
+        const newTodo = document.getElementById('new-todo');
+
+        newTodo.addEventListener('keydown', (event) => {
+
+            if (event.key === 'Enter') {
+
+                const new_li = document.createElement('li');
+                const todoList = document.getElementById('todo-list');
+
+                if (newTodo.value !== '') {
+                    new_li.textContent = newTodo.value;
+                    todoList.appendChild(new_li);
+
+
+                }
+                else {
+                    console.log("빈 값을 입력함.");
+                    return;
+                    //popup 메세지 띄우면 좋을듯.
+                }
+            }
+        });
+
+        //   function isComplete(newcomBtn){
+        //     newcomBtn.addEventListener('click', () =>{
+        //         console.log("완료 버튼 클릭");
+        //         completed = true;
+        //         console.log("completed : ", completed);
+        //     });
+
+        //     return completed;
+        // }
+
+
+        
+    </script>
+</body>
+
+</html>

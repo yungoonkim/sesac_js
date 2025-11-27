@@ -24,7 +24,7 @@
         }
 
         .container #timedisplay{
-            font-size: 30px;
+            font-size: 100px;
             padding: 10px;
             margin-bottom: 20px;
             border: 2px solid black;
@@ -74,12 +74,15 @@
         let time = document.getElementById('timedisplay');
         let timerId;
         let millisec = 0, sec = 0, min = 0;
+
+        stopBtn.disabled = true;
         
         
         startBtn.addEventListener('click', ()=>{ 
-
+            stopBtn.disabled = false;
             startBtn.disabled = true;
            
+            requestAnimationFrame()
             timerId = setInterval(()=>{
                 time.textContent = `${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}.${String(millisec).padStart(2,'0')}`;
                 if(millisec >= 100){
@@ -94,8 +97,6 @@
 
                 millisec++;
             }, 10);
-            
-            
         });
 
         stopBtn.addEventListener('click', ()=>{
@@ -110,6 +111,7 @@
             }
             time.textContent = `00:00.00`;
             millisec = 0, sec = 0, min = 0;
+            stopBtn.disabled = true;
             startBtn.disabled = false;
         });
 

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>동적 검색 필터</h1>
+    <input type="text" id="searchInput" placeholder="검색어를 입력하시오...">
+
+    <ul id="itemsList">
+        <li>사과</li>
+        <li>바나나</li>
+        <li>오렌지</li>
+        <li>포도</li>
+        <li>키위</li>
+        <li>복숭아</li>
+        <li>자두</li>
+        <li>체리</li>
+        <li>레몬</li>
+        <li>라임</li>
+        <li>멜론</li>
+        <li>수박</li>
+        <li>망고</li>
+        <li>파파야</li>
+        <li>블루베리</li>
+        <li>딸기</li>
+        <li>파인애플</li>
+        <li>석류</li>
+        <li>자몽</li>
+        <li>코코넛</li>
+        <li>감</li>
+        <li>무화과</li>
+        <li>살구</li>
+        <li>복분자</li>
+        <li>아보카도</li>
+        <li>크랜베리</li>
+        <li>라즈베리</li>
+        <li>블랙베리</li>
+        <li>용과</li>
+        <li>구아바</li>
+        <li>패션프루트</li>
+        <li>망고스틴</li>
+        <li>잭프루트</li>
+        <li>두리안</li>
+        <li>밤</li>
+        <li>대추</li>
+        <li>석송</li>
+        <li>뽕나무열매</li>
+        <li>앵두</li>
+        <li>참외</li>
+        <li>멜론</li>
+        <li>수박</li>
+        <li>딸기</li>
+        <li>블루베리</li>
+        <li>바나나</li>
+        <li>사과</li>
+        <li>오렌지</li>
+        <li>포도</li>
+        <li>키위</li>
+        <li>망고</li>
+        <li>파인애플</li>
+        <li>자몽</li>
+        <li>레몬</li>
+        <li>라임</li>
+        <li>체리</li>
+        <li>복숭아</li>
+        <li>자두</li>
+        <li>블랙베리</li>
+        <li>라즈베리</li>
+        <li>크랜베리</li>
+        <li>패션프루트</li>
+        <li>용과</li>
+        <li>구아바</li>
+        <li>두리안</li>
+        <li>망고스틴</li>
+        <li>잭프루트</li>
+        <li>밤</li>
+        <li>대추</li>
+        <li>감</li>
+        <li>무화과</li>
+        <li>살구</li>
+        <li>복분자</li>
+        <li>뽕나무열매</li>
+        <li>앵두</li>
+        <li>참외</li>
+        <li>코코넛</li>
+        <li>사과</li>
+        <li>바나나</li>
+        <li>오렌지</li>
+        <li>포도</li>
+        <li>키위</li>
+        <li>복숭아</li>
+        <li>자두</li>
+        <li>체리</li>
+        <li>레몬</li>
+        <li>라임</li>
+        <li>멜론</li>
+        <li>수박</li>
+        <li>망고</li>
+        <li>파파야</li>
+        <li>블루베리</li>
+        <li>딸기</li>
+        <li>파인애플</li>
+        <li>석류</li>
+        <li>자몽</li>
+        <li>코코넛</li>
+    </ul>
+
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        // li를 가져오고 싶은데 id가 없으면
+        // ul을 가지고 와서 그 아래에 있는 li를 가져온다..
+        const itemsList = document.getElementById('itemsList');
+        const items = itemsList.getElementsByTagName('li');
+
+        const items2 = document.querySelectorAll('#itemsList > li');
+        console.log(items);
+        console.log(items2);
+
+
+        searchInput.addEventListener('keydown', () => { //keydown, keyup, input
+            const filter = searchInput.value;
+            //1.방법1. for
+            // for(let i = 0; i < items.length; i++){
+            //     const item = items[i];
+            //     const text = item.textContent || item.innerText;
+            //     if(text.includes(filter)){
+            //         item.style.display ='';
+            //     }
+            //     else{
+            //         item.style.display ='none';
+            //     }
+            // }
+
+            //방법2. forEach
+            //HTMLCollection은 Array로 변환해얌.
+            Array.from(items).forEach(item => {
+                const text = item.textContent;
+                if (text.includes(filter)) {
+                    item.style.display = '';
+                }
+                else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>동적 검색 필터</h1>
+    <input type="text" id="searchInput" placeholder="검색어를 입력하시오...">
+
+    <ul id="itemsList">
+        <li>사과</li>
+        <li>바나나</li>
+        <li>오렌지</li>
+        <li>포도</li>
+        <li>키위</li>
+        <li>복숭아</li>
+        <li>자두</li>
+        <li>체리</li>
+        <li>레몬</li>
+        <li>라임</li>
+        <li>멜론</li>
+        <li>수박</li>
+        <li>망고</li>
+        <li>파파야</li>
+        <li>블루베리</li>
+        <li>딸기</li>
+        <li>파인애플</li>
+        <li>석류</li>
+        <li>자몽</li>
+        <li>코코넛</li>
+        <li>감</li>
+        <li>무화과</li>
+        <li>살구</li>
+        <li>복분자</li>
+        <li>아보카도</li>
+        <li>크랜베리</li>
+        <li>라즈베리</li>
+        <li>블랙베리</li>
+        <li>용과</li>
+        <li>구아바</li>
+        <li>패션프루트</li>
+        <li>망고스틴</li>
+        <li>잭프루트</li>
+        <li>두리안</li>
+        <li>밤</li>
+        <li>대추</li>
+        <li>석송</li>
+        <li>뽕나무열매</li>
+        <li>앵두</li>
+        <li>참외</li>
+        <li>멜론</li>
+        <li>수박</li>
+        <li>딸기</li>
+        <li>블루베리</li>
+        <li>바나나</li>
+        <li>사과</li>
+        <li>오렌지</li>
+        <li>포도</li>
+        <li>키위</li>
+        <li>망고</li>
+        <li>파인애플</li>
+        <li>자몽</li>
+        <li>레몬</li>
+        <li>라임</li>
+        <li>체리</li>
+        <li>복숭아</li>
+        <li>자두</li>
+        <li>블랙베리</li>
+        <li>라즈베리</li>
+        <li>크랜베리</li>
+        <li>패션프루트</li>
+        <li>용과</li>
+        <li>구아바</li>
+        <li>두리안</li>
+        <li>망고스틴</li>
+        <li>잭프루트</li>
+        <li>밤</li>
+        <li>대추</li>
+        <li>감</li>
+        <li>무화과</li>
+        <li>살구</li>
+        <li>복분자</li>
+        <li>뽕나무열매</li>
+        <li>앵두</li>
+        <li>참외</li>
+        <li>코코넛</li>
+        <li>사과</li>
+        <li>바나나</li>
+        <li>오렌지</li>
+        <li>포도</li>
+        <li>키위</li>
+        <li>복숭아</li>
+        <li>자두</li>
+        <li>체리</li>
+        <li>레몬</li>
+        <li>라임</li>
+        <li>멜론</li>
+        <li>수박</li>
+        <li>망고</li>
+        <li>파파야</li>
+        <li>블루베리</li>
+        <li>딸기</li>
+        <li>파인애플</li>
+        <li>석류</li>
+        <li>자몽</li>
+        <li>코코넛</li>
+    </ul>
+
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const itemsList = document.getElementById('itemsList');
+        const items = itemsList.getElementsByTagName('li');
+
+        // 디바운스 함수 정의
+        function debounce(func, delay) {
+            let timeoutId;
+            return function (...args) {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    func.apply(this, args);
+                }, delay);
+            }
+        }
+
+        // 검색 필터 함수
+        function filterItems() {
+            const filter = searchInput.value.toLowerCase();
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const text = item.textContent || item.innerText;
+                if (text.toLowerCase().includes(filter)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            }
+        }
+
+        // 디바운스를 적용한 이벤트
+        searchInput.addEventListener('input', debounce(filterItems, 1000));
+    </script>
+
+</body>
+
+</html>
