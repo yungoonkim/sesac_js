@@ -1,114 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>TodoList</title>
     <style>
-        .buttons button{
-            display: none;
-        }
-
-        #todo-list > li{
+        #todoList>li {
             cursor: pointer;
         }
 
-        .completed{
 
+        .completed {
             text-decoration: line-through;
         }
     </style>
 </head>
 
 <body>
-    <h1>투두리스트</h1>
-    <input type="text" id="new-todo" placeholder="할일을 입력하시오">
-    <button id="add-todo">입력</button>
-    <!-- 할일들을 아래에 표시할 예정 -->
-    <ul id="todo-list"></ul>   
+    <h1>TodoList</h1>
+    <input type="text" id="inputText" placeholder="글자를 입력하시오...">
+    <button id="addBtn">입력</button>
+    <ul id="todoList"></ul>
 
     <script>
-        //1. 버튼 가져온다.
-        const addBtn = document.getElementById('add-todo');
-        let completed = false;
+    const input = document.getElementById('inputText');
+    const addBtn = document.getElementById('addBtn');
+    const todoList = document.getElementById('todoList');
 
-        //2. 버튼 클릭 동작시킴
-        addBtn.addEventListener('click', () => {
 
-            //3. 입력 항목 가져옴
-            const newTodo = document.getElementById('new-todo');
+    addBtn.addEventListener('click', () => {
 
-            //4.새로운 li를 만든다.
-            //5.ul에 추가한다.
-            const new_li = document.createElement('li');
-            const todoList = document.getElementById('todo-list');
+        const newli = createListItem(input.value);
+        console.log(newli);
+        todoList.appendChild(newli);
 
-            if (newTodo.value !== '') {
-                console.log(newTodo.value);
-                new_li.textContent = newTodo.value;
-                todoList.appendChild(new_li);
-                new_li.innerHTML = `${newTodo.value} <button id="modifyBtn">수정</button><button id="deleteBtn">삭제</button>`;
-                newTodo.value = '';
+    });
 
-                new_li.addEventListener('click', ()=>{
-                    // if(new_li.classList.contains('completed')){
-                    //     new_li.classList.remove('completed');
-                    // }
-                    // else{
-                    //     new_li.classList.add('completed');
-                    // }
-                    new_li.classList.toggle('completed');
-                    
-                });
+    function createListItem(text) {
 
-            }
-            else {
-                console.log("빈 값을 입력함.");
-                return;
-            }
-            
-            
+        const li = document.createElement('li');
+        li.textContent = text;
+        text = '';
+
+        li.innerHTML = `
+            ${li.textContent}
+            <button class="modifyBtn">수정</button>
+            <button class="deleteBtn">삭제</button>
+        `;
+
+        const delBtn = li.querySelector('.deleteBtn');
+        const modBtn = li.querySelector('.modifyBtn');
+
+        modBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            let currentText = li.firstChild.textContent.trim();
+            li.textContent = '';
+
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.value = currentText;
+
+            const saveBtn = document.createElement('button');
+            saveBtn.innerText = '저장';
+
+            li.appendChild(newInput);
+            li.appendChild(saveBtn);
+
+            saveBtn.addEventListener('click', () => {
+                const new_li = createListItem(newInput.value);
+                li.replaceWith(new_li);
+            });
 
         });
 
-        const newTodo = document.getElementById('new-todo');
-
-        newTodo.addEventListener('keydown', (event) => {
-
-            if (event.key === 'Enter') {
-
-                const new_li = document.createElement('li');
-                const todoList = document.getElementById('todo-list');
-
-                if (newTodo.value !== '') {
-                    new_li.textContent = newTodo.value;
-                    todoList.appendChild(new_li);
-
-
-                }
-                else {
-                    console.log("빈 값을 입력함.");
-                    return;
-                    //popup 메세지 띄우면 좋을듯.
-                }
-            }
+        delBtn.addEventListener('click', () => {
+            li.remove();
         });
 
-        //   function isComplete(newcomBtn){
-        //     newcomBtn.addEventListener('click', () =>{
-        //         console.log("완료 버튼 클릭");
-        //         completed = true;
-        //         console.log("completed : ", completed);
-        //     });
+        li.addEventListener('click', () => {
+            li.classList.toggle('completed');
+        });
 
-        //     return completed;
-        // }
+        return li;
 
+    }
 
-        
-    </script>
+</script>
 </body>
+
 
 </html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        #todoList > li{
+            cursor: pointer;
+        }
+
+        .completed{
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>To-Do-List</h1>
+    <input type="text" id="inputText" placeholder="글자를 입력하시오...">
+    <button id="addBtn">입력</button>
+    <ul id="todoList"></ul>
+
+    <script>
+        //1.DOM 가져오기
+        const input = document.getElementById('inputText');
+        const addBtn = document.getElementById('addBtn');
+        const todoList = document.getElementById('todoList');
+
+        //2.list 동적 생성 함수 만들기
+        function createList(inputText) {
+            //리스트 생성
+            const Li = document.createElement('li');
+            //리스트에 텍스트/수정/삭제 버튼 추가
+            Li.innerHTML = `
+                ${inputText}
+                <button class="modifyBtn">수정</button>
+                <button class="deleteBtn">삭제</button>
+            `;
+            //리스트 반환
+            return Li;
+        }
+
+        //3.list 추가 함수 만들기
+        function addList() {
+            const value = input.value.trim();
+            if (value === '') return;
+            const Li = createList(value);
+            todoList.appendChild(Li);
+            input.value = '';
+        }
+
+        //4. 이벤트 추가하기 버튼 클릭(입력)
+        addBtn.addEventListener('click', addList);
+
+        //5. 키보드 이벤트 추가하기(입력)
+        inputText.addEventListener('keydown', (event) => {
+            if (event.key == 'Enter') {
+                addList();
+            }
+        });
+
+
+        //6.이벤트 위임..(삭제, 수정, 저장, 완료처리)
+        todoList.addEventListener('click', (event) => {
+            //버튼, inputText 클릭한 DOM을 가져온다?
+            const target = event.target;
+            //DOM 의 자신(부모)과 가까운 li를 찾는다.
+            const Li = target.closest('li');
+
+            switch (true) {
+                case target.classList.contains('deleteBtn'):
+                    {
+                        Li.remove();
+                    }
+                    break;
+                case target.classList.contains('modifyBtn'):
+                    {
+                        const currentText = Li.firstChild.textContent.trim();
+                        Li.dataset.origin = currentText;
+                        console.log(currentText);
+                        Li.innerHTML = `
+                           <input type="text" value="${currentText}" class="newInput">
+                           <button class="cancelBtn">취소</button>
+                           <button class="saveBtn">저장</button>
+                        `;
+                    }
+                    break;
+                case target.classList.contains('saveBtn'):
+                    {
+                        const newInputText = Li.querySelector('.newInput').value;
+                        const new_Li = createList(newInputText);
+                        Li.replaceWith(new_Li);
+                    }
+                    break;
+                    //취소 기능 추가
+                case target.classList.contains('cancelBtn'):
+                    {
+                        console.log(Li.dataset.origin);
+                        const currentText = Li.dataset.origin;
+                        const new_Li = createList(currentText);
+                        Li.replaceWith(new_Li);
+                    }
+                    break;
+                case target === Li:
+                    {
+                        Li.classList.toggle('completed');
+                    }    
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>
