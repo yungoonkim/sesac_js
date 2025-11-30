@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #todoList>li {
+            cursor: pointer;
+        }
+
+        .completed {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>To-DO-List</h1>
+    <input type="text" id="inputText" placeholder="글자를 입력해주세요..">
+    <button id="addBtn">등록</button>
+    <button id="totalCompletedBtn">일괄 완료</button>
+    <button id="totalDeleteBtn">일괄 삭제</button>
+    <button id="selectCompletedBtn">선택 완료</button>
+    <button id="selectDeleteBtn">선택 삭제</button>
+    <ul id="todoList"></ul>
+
+    <script>
+        const input = document.getElementById('inputText');
+
+        const addBtn = document.getElementById('addBtn');
+        const totalDeleteBtn = document.getElementById('totalDeleteBtn');
+        const totalCompletedBtn = document.getElementById('totalCompletedBtn');
+        const selComBtn = document.getElementById('selectCompletedBtn');
+        const selDelBtn = document.getElementById('selectDeleteBtn');
+
+        const todoList = document.getElementById('todoList');
+
+        const todoSet = new Set();
+
+        totalDeleteBtn.addEventListener('click', () => {
+            todoSet.clear();
+            let total_li = document.querySelectorAll('#todoList li');
+            total_li.forEach(li => li.remove());
+        });
+
+        totalCompletedBtn.addEventListener('click', () => {
+            const total_li = document.querySelectorAll('#todoList li');
+            total_li.forEach(li => {
+                li.classList.toggle('completed');
+            })
+        });
+
+        selComBtn.addEventListener('click', () => {
+            const all_li = document.querySelectorAll('#todoList li');
+            all_li.forEach(li => {
+                const check = li.querySelector('input[type="checkbox"]');
+
+                if (check && check.checked) {
+                    console.log("선택 완료 버튼 클릭");
+
+                    li.classList.toggle('completed');
+                    check.checked = false;
+                }
+            });
+
+        });
+
+        selDelBtn.addEventListener('click', () => {
+            const all_li = document.querySelectorAll('#todoList li');
+            all_li.forEach(li => {
+                const check = li.querySelector('input[type="checkbox"]');
+
+                if (check && check.checked) {
+                    const text = li.querySelector('.todo-text').textContent.trim();
+                    todoSet.delete(text);
+                    li.remove();
+                }
+            });
+        });
+
+        addBtn.addEventListener('click', () => {
+            addList();
+        });
+
+        input.addEventListener('keydown', (event) => {
+            if (event.key == 'Enter') {
+                addList();
+            }
+        });
+
+        todoList.addEventListener('click', (event) => {
+            let target = event.target;
+            console.log(target);
+            let li = target.closest('li');
+
+            switch (true) {
+                case target.classList.contains('deleteBtn'):
+                    {
+                        todoSet.delete(li.querySelector('.todo-text').textContent.trim());
+                        li.remove();
+                    }
+                    break;
+                case target.classList.contains('modifyBtn'):
+                    {
+                        const currentText = li.querySelector('.todo-text').textContent.trim();
+                        li.dataset.origin = currentText;
+                        console.log("원본 데이터:", li.dataset.origin);
+
+                        li.innerHTML = `                    
+                        <input type="text" id='newInput' value="${currentText}">
+                        <button class="cancelBtn">취소</button>
+                        <button class="saveBtn">저장</button>
+                    `;
+
+                        const newInput = li.querySelector('#newInput');
+
+                        // 입력창에서 엔터 처리
+                        newInput.addEventListener('keydown', (event) => {
+                            if (event.key === 'Enter') {
+                                const newText = newInput.value;
+                                const new_li = createList(newText);
+                                li.replaceWith(new_li);
+                            }
+                            else if (event.key === 'Escape') {
+                                const new_li = createList(li.dataset.origin);
+                                li.replaceWith(new_li);
+                            }
+                        });
+                    }
+                    break;
+                case target.classList.contains('saveBtn'):
+                    {
+                        const newInput = document.getElementById('newInput').value;
+                        const origin = li.dataset.origin;
+                        if (newInput == '') return;
+
+                        todoSet.delete(origin);
+
+                        if (todoSet.has(newInput)) {
+                            alert("이미 같은 항목이 있습니다.");
+                            return;
+                        }
+
+                        todoSet.add(newInput);
+
+                        const new_li = createList(newInput);
+                        li.replaceWith(new_li);
+                    }
+                    break;
+                case target.classList.contains('cancelBtn'):
+                    {
+                        const new_li = createList(li.dataset.origin);
+                        li.replaceWith(new_li);
+                    }
+                    break;
+                case target.classList.contains('todo-text'):
+                    {
+                        li.classList.toggle('completed');
+                    }
+                    break;
+            }
+        });
+
+
+        function createList(text) {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <input type="checkbox" id="select">
+                <span class="todo-text">${text}</span>
+                <button class="modifyBtn">수정</button>
+                <button class="deleteBtn">삭제</button>
+            `;
+
+            return li;
+        }
+
+        function addList() {
+            let text = input.value.trim();
+            if (text === '') return;
+
+            //방법1. 배열로 만든 뒤 중복 문자 있는지 검사
+            // const exist = Array.from(todoList.children).some(li =>{
+            //     return li.firstChild.textContent.trim() === text;
+            // })
+
+            // if(exist){
+            //     alert("이미 같은 항목이 있습니다.");
+            //     return;
+            // }
+
+            //방법2. Set 사용
+            if (todoSet.has(text)) {
+                alert("이미 같은 항목이 있습니다.");
+                return;
+            }
+
+            todoSet.add(text);
+
+            const new_li = createList(text);
+            todoList.appendChild(new_li);
+            input.value = '';
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>
