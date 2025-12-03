@@ -1,1 +1,18 @@
 const fs = require('fs');
+const path = require('path');
+
+const basePath = './';
+
+fs.readdir(basePath, (err, files) => {
+    console.log(basePath);
+    if(err){
+        console.log('아몰라 오류났데. 일단 끝.');
+        return;
+    }
+
+    console.log('성공결과: ', files);
+    files.forEach(file =>{
+        const filePath = path.join(basePath, file);
+        console.log('├── ', filePath);
+    })
+})
