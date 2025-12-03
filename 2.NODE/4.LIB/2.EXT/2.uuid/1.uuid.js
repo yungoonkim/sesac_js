@@ -4,3 +4,5 @@
 
 //const {v4: uuidv4} = require('uuid'); //변수 v4에 uuid ver4를 가져와서 저장
 const id = require('uuid');
+
+console.log("생성된 uuid: ", id);
