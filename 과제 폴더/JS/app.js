@@ -1,11 +1,12 @@
 const { v4: uuidv4 } = require('uuid');
+const Common = require('./Class/Common');
 const User = require('./Class/User');
 const Store = require('./Class/Store');
 const Item = require('./Class/Item');
 const Order = require('./Class/Order');
 const Orderitem = require('./Class/Orderitem');
 
-
+const myCommon = new Common();
 const myStore = new Store();
 const myUser = new User();
 const myItem = new Item();
@@ -14,33 +15,14 @@ const myOrderitem = new Orderitem();
 
 let records = [], userIdList = [], storeIdList = [], orderIdList = [], itemIdList = [], orderItemIdList = [];
 
-let csvWriter = myUser.createCSV('user');
-records = repeatData('user', 10);
-myUser.writeCSV(csvWriter, records);
-records = [];
-
-
-csvWriter = myStore.createCSV('store');
-records = repeatData('store', 10);
-myStore.writeCSV(csvWriter, records);
-records = [];
-
-csvWriter = myItem.createCSV('item');
-records = repeatData('item', 10);
-myItem.writeCSV(csvWriter, records);
-records = [];
-
-csvWriter = myOrder.createCSV('order');
-records = repeatData('order', 10);
-myOrder.writeCSV(csvWriter, records);
-records = [];
-
-
-csvWriter = myOrderitem.createCSV('orderitem');
-records = repeatData('orderitem', 10);
-myOrderitem.writeCSV(csvWriter, records);
 //1. CSV 파일명을 입력으로 받으면 좋을것 같고..
 //2. 랜덤 생성 되는 파일의 중복이 없으면 좋을 듯..
+
+makeCSV('user');
+makeCSV('store');
+makeCSV('item');
+makeCSV('order');
+makeCSV('orderitem');
 
 
 function repeatData(filename, count) {
@@ -127,4 +109,11 @@ function headerData(filename, object, uuid) {
 
 
     return object;
+}
+
+function makeCSV(filename) {
+    let csvWriter = myCommon.createCSV(filename);
+    records = repeatData(filename, 10);
+    myCommon.writeCSV(csvWriter, records);
+    records = [];
 }
