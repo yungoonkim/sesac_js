@@ -1,5 +1,7 @@
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const { v4: uuidv4 } = require('uuid');
+const Common = require('./Common');
+const myCommon = new Common();
 
 const lastnames = [
     "서준", "민준", "도윤", "시우", "예준", "하준", "지호", "주원", "지후", "도현",
@@ -87,91 +89,60 @@ const firstname = [
     "견", "당"
 ];
 
-
-function randomFirstName() {
-    let index = Math.floor(Math.random() * firstname.length);
-    return firstname[index];
-}
-
-
-function generateName() {
-    const index = Math.floor(Math.random() * lastnames.length);
-    // console.log(index);
-    return lastnames[index];
-}
-
-
-const csvWriter = createCsvWriter({
-    path: 'ueser.csv',
-    header: [
-        { id: 'id', title: 'id' },
-        { id: 'name', title: '이름' },
-        { id: 'age', title: '나이' },
-        { id: 'gender', title: '성별' },
-        { id: 'birthdate', title: '생년월일' },
-    ]
-});
+const csvWriter = myCommon.createCSV('user');
 
 const uuid = uuidv4();
 console.log('생성된 UUID: ', uuid);
-
-//1.uuid 생성 함수
-//2.이름 생성 함수
-//3.
 
 const records = [];
 for (let i = 0; i < 1000; i++) {
 
     let dataArr = {
-        id: undefined,
-        name: undefined,
-        age: undefined,
-        gender: undefined,
-        birthdate: undefined
+        id: null,
+        name: null,
+        age: null,
+        gender: null,
+        birthdate: null
     };
 
     dataArr.id = uuid;
-    dataArr.name = randomFirstName() + generateName();
-    dataArr.age = generateAge();
-    dataArr.gender = generateGender();
-    dataArr.birthdate = generateBirthdate();
+    dataArr.name = genFirstName() + genLastName();
+    dataArr.age = genAge();
+    dataArr.gender = genGender();
+    dataArr.birthdate = genBirthdate();
 
     records.push(dataArr);
 }
 
-csvWriter.writeRecords(records)       // returns a promise
-    .then(() => {
-        console.log('...저장완료');
-    });
+myCommon.writeCSV(csvWriter, records);
 
 
-function generateAge() {
+
+function genAge() {
     return Math.floor(Math.random() * 100) + 1;
 }
 
 
-function generateGender() {
+function genGender() {
     return Math.random() < 0.5 ? "남성" : "여성";
 }
 
-function generateBirthdate() {
+function genBirthdate() {
     const year = Math.floor(Math.random() * 76) + 1950;  //0~99
     const month = Math.floor(Math.random() * 12) + 1;  //0~11
-    let day = undefined;
+    let day = null;
 
-    if (month % 2 == 1) {
+    if (month % 2 === 1) {
         day = Math.floor(Math.random() * 31) + 1;
     }
-    else if (month % 2 == 0) {
+    else if (month % 2 === 0) {
 
-        if (month == 2) {
-            if (year % 4 == 0) {
-                day = Math.floor(Math.random() * 29) + 1;
-            }
-            else if (year % 4 == 0 && year % 100 == 0) {
+        if (month === 2) {
+            
+            if((year % 4 == 0 && year % 100 == 0) || year % 4 == 0){
                 day = Math.floor(Math.random() * 28) + 1;
             }
-            else if (year % 4 == 0 && year % 100 == 0 && year % 400 == 0) {
+            else{
                 day = Math.floor(Math.random() * 29) + 1;
             }
         }
@@ -180,5 +151,17 @@ function generateBirthdate() {
         }
     }
 
-    return `${year}-${month}-${day}`;
+    return `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
 } 
+
+function genFirstName() {
+    let index = Math.floor(Math.random() * firstname.length);
+    return firstname[index];
+}
+
+
+function genLastName() {
+    const index = Math.floor(Math.random() * lastnames.length);
+    // console.log(index);
+    return lastnames[index];
+}
