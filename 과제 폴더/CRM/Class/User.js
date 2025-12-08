@@ -119,11 +119,11 @@ class User extends Common {
 
             if (month === 2) {
 
-                if ((year % 4 == 0 && year % 100 == 0) || year % 4 == 0) {
-                    day = Math.floor(Math.random() * 28) + 1;
+                if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+                    day = Math.floor(Math.random() * 29) + 1;
                 }
                 else {
-                    day = Math.floor(Math.random() * 29) + 1;
+                    day = Math.floor(Math.random() * 28) + 1;
                 }
             }
             else {

@@ -45,23 +45,16 @@ class Common {
         const header = this.header[filename];
 
         const csvWriter = createCsvWriter({
-            path: `${filename}.csv`,
+            path: `output/${filename}.csv`,
             header
         });
 
         return csvWriter;
     };
 
-    getheader(filename){
-        return this.header[filename];
-    }
-
     writeCSV(csvWriter, records) {
       
-        csvWriter.writeRecords(records)       // returns a promise
-            .then(() => {
-                console.log('...저장완료');
-            });
+        return csvWriter.writeRecords(records)       
     }
 }
 

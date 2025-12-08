@@ -15,19 +15,19 @@ class Store extends Common {
     Ulsan_Gu = ["중구", "남구", "동구", "북구", "울주군"];
 
 
-    randomBrandName() {
+    genBrandName() {
         let index = Math.floor(Math.random() * this.brandName.length);
         return this.brandName[index];
     }
 
 
-    generateBranch() {
+    genBranch() {
         const index = Math.floor(Math.random() * this.branch.length);
         return this.branch[index];
     }
 
 
-    generateAddress() {
+    genAddress() {
         let city_index = Math.floor(Math.random() * this.city.length);
 
         if (this.city[city_index] == '서울') {
