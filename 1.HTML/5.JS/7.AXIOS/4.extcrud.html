@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <h1>착한아저씨 사이트에 CRUD 해보기</h1>
+    <div>
+        <h3>포스트 생성하기</h3>
+        <button id="createPost">포스트 생성</button>
+    </div>
+    <div>
+        <h3>포스트 조회하기</h3>
+        <input type="number" id="inputRPost">
+        <button id="prevButton"> << </button>
+        <button id="nextButton"> >> </button>
+        <button id="readPost">포스트 조회</button>
+    </div>
+    <div>
+        <h3>포스트 수정하기</h3>
+        <button id="modifyPost">포스트 수정</button>
+    </div>
+    <div>
+        <h3>포스트 삭제하기</h3>
+        <button id="deletePost">포스트 삭제</button>
+    </div>
+    <div>
+        <h3>공통결과를 출력할 곳</h3>
+        <div id="result"></div>
+    </div>
+
+    <script>
+
+        const prevBtn = document.getElementById('prevButton');
+        const nextBtn = document.getElementById('nextButton');
+
+        [prevBtn, nextBtn].forEach(btn => {
+            btn.addEventListener('click', () => {
+                if(btn.id === 'prevButton'){
+                    const value = document.getElementById('inputRPost').value;
+                    if(value > 0){
+                        document.getElementById('inputRPost').value--;
+                    }
+                    else{
+                        document.getElementById('inputRPost').value = 0;
+                    }
+                    
+                }
+                else{
+                    document.getElementById('inputRPost').value++;
+                }
+            })
+        })
+
+        document.getElementById('createPost').addEventListener('click', () => {
+            const requestURL = `https://jsonplaceholder.typicode.com/posts`;
+            const myPost = {
+                title: 'sesac',
+                body: 'seoul',
+                userId: 3,
+            };
+
+            createPost(myPost, requestURL);
+        });
+
+        async function createPost(post, URL) {
+            const response = await axios.post(URL, post, {
+                Headers:{'ContentType': 'application/json; charset=UTF-8'}
+            });
+            const data = response.data;
+            document.getElementById('result').innerText = JSON.stringify(data);
+        }
+
+        document.getElementById('readPost').addEventListener('click', () => {
+            const requestURL = `https://jsonplaceholder.typicode.com/posts/1`;
+            const myPost = {
+                title: 'sesac',
+                body: 'seoul',
+                userId: 2,
+            };
+            readPost(myPost, requestURL);
+        });
+
+        async function readPost(post, URL) {
+            const response = await axios.get(URL, post, {
+                Headers:{'ContentType': 'application/json; charset=UTF-8'}
+            });
+            const data = response.data;
+            document.getElementById('result').innerText = JSON.stringify(data);
+        }
+
+        document.getElementById('modifyPost').addEventListener('click', () => {
+            const requestURL = `https://jsonplaceholder.typicode.com/posts/1`;
+            const myUpdatedPsot = {
+                id: 1,
+                title: 'hello',
+                body: 'world',
+                userId: 1,
+            };
+
+            modifyPost(myUpdatedPsot, requestURL);
+        });
+
+        async function modifyPost(post, URL) {
+            const response = await axios.patch(URL, post, {
+                Headers:{'ContentType': 'application/json; charset=UTF-8'}
+            });
+            const data = response.data;
+            document.getElementById('result').innerText = JSON.stringify(data);
+        }
+
+        document.getElementById('deletePost').addEventListener('click', () => {
+            const requestURL = `https://jsonplaceholder.typicode.com/posts/1`;
+            const myDeletePost = {
+                title: 'sesac',
+                body: 'seoul',
+                userId: 3,
+            };
+
+            deletePost(myDeletePost, requestURL);
+        });
+
+        async function deletePost(post, URL) {
+            const response = await axios.delete(URL, post, {
+                Headers:{'ContentType': 'application/json; charset=UTF-8'}
+            });
+            const data = response.data;
+            document.getElementById('result').innerText = JSON.stringify(data);
+        }
+
+
+    </script>
+</body>
+
+</html>
