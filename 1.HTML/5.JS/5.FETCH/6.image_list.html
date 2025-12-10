@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Dog</title>
+</head>
+
+<body>
+    <h1>Random Dog Breed Image</h1>
+    <span>Choose a breed:</span>
+    <select id="myCombo">
+        <!-- <option value="1">사과</option>
+        <option value="2">바나나</option>
+        <option value="3">딸기</option> -->
+    </select>
+    <span>Choose a sub breed:</span>
+    <select id="mySubCombo">
+        <!-- <option value="1">사과</option>
+        <option value="2">바나나</option>
+        <option value="3">딸기</option> -->
+    </select>
+    <button id="fetchButton">Fetch Image</button>
+    <div id="imageContainer">
+        <!-- 결과를 넣을 공간 -->
+    </div>
+    <script>
+
+        const combo = document.getElementById('myCombo');
+        const sub_combo = document.getElementById('mySubCombo');
+
+        combo.addEventListener('click', () => {
+            if (sub_combo) {
+                sub_combo.innerHTML = "";
+            }
+            fetch('https://dog.ceo/api/breeds/list/all')
+                .then(response => response.json())
+                .then(data => {
+                    const breedkey = Object.keys(data.message);
+
+                    //combo.innerHTML = "";
+
+                    for (let i = 0; i < breedkey.length; i++) {
+                        const option = document.createElement('option');
+                        option.value = `${i + 1}`;
+                        option.innerText = breedkey[i];
+                        combo.appendChild(option);
+                    }
+                    const selectedText = combo.options[combo.selectedIndex].text;
+                    const subBreeds = data.message[selectedText];
+
+                    for (let i = 0; i < subBreeds.length; i++) {
+                        const option = document.createElement('option');
+                        option.value = `${i + 1}`;
+                        option.innerText = subBreeds[i];
+                        sub_combo.appendChild(option);
+                    }
+                })
+        })
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('https://dog.ceo/api/breeds/list/all')
+                .then(response => response.json())
+                .then(data => {
+                    const breedkey = Object.keys(data.message);
+                    for (let i = 0; i < breedkey.length; i++) {
+                        const option = document.createElement('option');
+                        option.value = `${i + 1}`;
+                        option.innerText = breedkey[i];
+                        combo.appendChild(option);
+                    }
+                    const selectedText = combo.options[combo.selectedIndex].text;
+                })
+        });
+
+        document.getElementById('fetchButton').addEventListener('click', () => {
+
+            let selectedText = combo.options[combo.selectedIndex].text;
+            let selectedSubText = "";
+
+            if (sub_combo && sub_combo.options.length > 0 && sub_combo.selectedIndex >= 0) {
+                selectedSubText = sub_combo.options[sub_combo.selectedIndex].text;
+            }
+
+            let randomURL = "";
+
+            if (selectedSubText) {
+                randomURL = `https://dog.ceo/api/breed/${selectedText}/${selectedSubText}/images/random`;
+            } else {
+                randomURL = `https://dog.ceo/api/breed/${selectedText}/images/random`;
+            }
+
+            fetch(randomURL)
+                .then(response => response.json())
+                .then(data => {
+                    const imageContainer = document.getElementById('imageContainer');
+                    imageContainer.innerHTML = `<img src="${data.message}" style="with: 200px">`;
+                })
+        });
+    </script>
+</body>
+
+</html>

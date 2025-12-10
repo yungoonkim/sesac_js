@@ -15,6 +15,9 @@
     </div>
     <div>
         <h3>포스트 조회하기</h3>
+        <input type="number" id="inputRPost" value="">
+        <button id="prev"><<</button>
+        <button id="next">>></button>
         <button id="readPost">포스트 조회</button>
     </div>
     <div>
@@ -31,20 +34,26 @@
     </div>
 
     <script>
-        let requestURL = `https://jsonplaceholder.typicode.com/posts`;
+
         document.getElementById('createPost').addEventListener('click', () => {
-            const myUser = {
+            const requestURL = `https://jsonplaceholder.typicode.com/posts`;
+            const myPost = {
                 title: 'sesac',
                 body: 'seoul',
                 userId: 3,
             };
 
-            fetch(requestURL, {
+            createPost(myPost, requestURL);
+        });
+
+        function createPost(post, URL) {
+
+            fetch(URL, {
                 method: 'POST',
                 hreaders: {
                     'Content-type': 'application/json; charset=UTF-8'
                 },
-                body: JSON.stringify(myUser),
+                body: JSON.stringify(post),
             })
                 .then(response => {
                     if (!response.ok) {
@@ -59,21 +68,27 @@
                 .catch(error => {
                     alert(error);
                 });
-        });
+        }
 
         document.getElementById('readPost').addEventListener('click', () => {
-            requestURL = `https://jsonplaceholder.typicode.com/posts/5`;
-            const myUser = {
+            const requestURL = `https://jsonplaceholder.typicode.com/posts/1`;
+            const myPost = {
                 title: 'sesac',
                 body: 'seoul',
                 userId: 2,
             };
-            fetch(requestURL, {
+            readPost(myPost, requestURL);
+            // readPost2(myPost, requestURL);
+        });
+
+        function readPost(post, URL) {
+
+            fetch(URL, {
                 method: 'PUT',
                 hreaders: {
                     'Content-type': 'application/json; charset=UTF-8'
                 },
-                body: JSON.stringify(myUser),
+                body: JSON.stringify(post),
             })
                 .then(response => {
                     if (!response.ok) {
@@ -84,27 +99,47 @@
                 })
                 .then(data => {
                     document.getElementById('result').innerText = JSON.stringify(data);
+                    //document.getElementById('inputRPost').innerText = JSON.stringify(data);
+                })
+                .then(data => {
+                    
+                    document.getElementById('inputRPost').value = JSON.stringify(data);
+                    console.log("inputRPost 값:", document.getElementById('inputRPost').value);
                 })
                 .catch(error => {
                     alert(error);
                 });
+        }
 
+        function readPost2() {
+            const readFirstPost = `${URL}`
+            fetch(readFirstPost)
+                .then(response => response.json())
+                .then(data => document.getElementById('result').innerText = JSON.stringify(data));
+        }
 
-        });
 
         document.getElementById('modifyPost').addEventListener('click', () => {
-            requestURL = `https://jsonplaceholder.typicode.com/posts/1`;
-            const myUser = {
-                title: 'sesac',
-                body: 'seoul',
-                userId: 3,
+            const requestURL = `https://jsonplaceholder.typicode.com/posts/1`;
+            const myUpdatedPsot = {
+                id: 1,
+                title: 'hello',
+                body: 'world',
+                userId: 1,
             };
-            fetch(requestURL, {
+
+            //modifyPost(myUpdatedPsot, requestURL);
+            modifyPost2(myUpdatedPsot, requestURL);
+        });
+
+        function modifyPost(post, URL) {
+
+            fetch(URL, {
                 method: 'PATCH',
                 hreaders: {
                     'Content-type': 'application/json; charset=UTF-8'
                 },
-                body: JSON.stringify(myUser),
+                body: JSON.stringify(post),
             })
                 .then(response => {
                     if (!response.ok) {
@@ -119,23 +154,38 @@
                 .catch(error => {
                     alert(error);
                 });
+        }
 
-
-        });
+        function modifyPost2(post, URL) {
+            const modifyFirstPost = `${URL}`;
+            fetch(modifyFirstPost, {
+                method: 'PUT',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify(post) //객체 -> 문자화
+            })
+                .then(response => response.json()) //문자를 -> 객체화
+                .then(data => document.getElementById('result').innerText = JSON.stringify(data)); //객체 -> 문자화
+        }
 
         document.getElementById('deletePost').addEventListener('click', () => {
-            requestURL = `https://jsonplaceholder.typicode.com/posts/1`;
-            const myUser = {
+            const requestURL = `https://jsonplaceholder.typicode.com/posts/1`;
+            const myDeletePost = {
                 title: 'sesac',
                 body: 'seoul',
                 userId: 3,
             };
-            fetch(requestURL, {
+
+            deletePost(myDeletePost, requestURL);
+        });
+
+        function deletePost(post, URL) {
+
+            fetch(URL, {
                 method: 'DELETE',
                 hreaders: {
                     'Content-type': 'application/json; charset=UTF-8'
                 },
-                body: JSON.stringify(myUser),
+                body: JSON.stringify(post),
             })
                 .then(response => {
                     if (!response.ok) {
@@ -150,7 +200,7 @@
                 .catch(error => {
                     alert(error);
                 });
-        });
+        }
 
 
     </script>
