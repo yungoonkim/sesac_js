@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>아직은 빈 껍데기</h1>
+    <input type="number" id="postId">
+    <button id="loadButton">조회</button>
+    <button id="deleteButton">삭제</button>
+
+    <div id='result'></div>
+
+    <script>
+        //(() => {
+            document.getElementById('loadButton').addEventListener('click', async () => {
+                //const response = fetch('http://localhost:3000/api/posts'); //내가 어디든지간에, 지정된 곳에 물어보겠다.
+                //const response = fetch('http://127.0.0.1:3000/api/posts'); //내가 어디든지간에, 지정된 곳에 물어보겠다.
+
+                const inputValue = document.getElementById('postId').value;
+
+                const response = await fetch(`/api/posts/${inputValue}`); //내가 접속한 사이트에서, 나에게 물어보겠다.
+                const data = await response.json();
+                const result = document.getElementById('result');
+                result.innerHTML = JSON.stringify(data);
+                // result.innerHTML = `
+                //             <p><strong>${data.title}</strong></p>
+                //             <p>${data.body}</p>
+                //         `;
+            });
+        //})();
+
+        document.getElementById('deleteButton').addEventListener('click', async () => {
+            const inputValue = document.getElementById('postId').value;
+
+            console.log("삭제 버튼 클릭");
+            
+
+            const response = await fetch(`/api/posts/${inputValue}`, {
+                method: 'DELETE'
+            });
+            const data = await response.json();
+            const result = document.getElementById('result');
+            result.innerHTML = JSON.stringify(data);
+
+        });
+
+
+
+
+
+      
+
+    </script>
+</body>
+
+</html>
