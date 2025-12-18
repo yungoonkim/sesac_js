@@ -30,7 +30,7 @@ app.post('/api/posts/:id', (req, res) => {
 
 //3. put 수정
 app.put('/api/post/:id', (req, res) => {
-
+    
 });
 
 

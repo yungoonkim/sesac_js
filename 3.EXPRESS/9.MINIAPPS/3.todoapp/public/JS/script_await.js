@@ -1,19 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM 로딩 완료');
 
-    function getTodo(){
+    async function getTodo() {
         //최초 시작하자 마자 백엔드에 가지고 있는 목록 달라고 요청한다.
-        fetch('/api/todos') //요청
-            .then(res => res.json()) //받아온 응답을 json으로 변환
-            .then(data => { //data라는 자료 구조로 받아와서 JS 코드에서 처리
-                console.log(data);
-                renderTodos(data);
-            });
+        const res = await fetch('/api/todos'); //요청
+        const data = await res.json();
+        console.log(data);
+        renderTodos(data);
     }
 
     getTodo();
 
-    function renderTodos(todos){
+    function renderTodos(todos) {
         const result = document.getElementById('todo-list');
         result.innerHTML = ''; //기존에 있는거 지운다..
 
@@ -32,35 +30,41 @@ document.addEventListener('DOMContentLoaded', () => {
             // }
             result.appendChild(li);
 
-            li.addEventListener('click', () => {
-                fetch(`/api/todo/${todo.id}/completed`, {method: 'PUT'})
-                    .then(() => getTodo()); 
+            li.addEventListener('click', async () => {
+                const res = await fetch(`/api/todo/${todo.id}/completed`, { method: 'PUT' });
+                const data = await res.json(); //음.. 지금은 리턴값 확인 안하는 나쁜코드임.
+                if(data.success == true){
+                    getTodo();
+                }
+                else{
+                    alert('해당 항목은 찾을 수 없습니다.');
+                }
             })
 
             const deleteBtn = document.createElement('button');
             deleteBtn.textContent = '삭제';
-            deleteBtn.addEventListener('click', (e) => {
+            deleteBtn.addEventListener('click',async (e) => {
                 e.stopPropagation(); //이벤트가 부모까지 전달 되는 것을 방지.
-                fetch(`/api/todo/${todo.id}`, {method: 'DELETE'})
-                    .then(() => getTodo());
+                const res = await fetch(`/api/todo/${todo.id}`, { method: 'DELETE' });
+                getTodo();
             })
             li.appendChild(deleteBtn);
         });
     }
 
     const addBtn = document.getElementById('add-todo');
-    addBtn.addEventListener('click', () => {
+    addBtn.addEventListener('click', async () => {
         const inputText = document.getElementById('new-todo').value;
         const text = inputText.trim(); //빈 공백 제거
         console.log(text);
         if (!text) return;
 
-        fetch('/api/todo', {
+        const res = await fetch('/api/todo', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ todo: text }) //문자화 또는 직렬화(serialization)
-        }).then(data => {
-            getTodo();
         });
-    })
+        const data = await res.json();
+        getTodo();
+    });
 });
