@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px dashed blue;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="400" height="200"></canvas>
+
+    <script>
+        // const canvas = document.getElementById('myCanvas');
+        // const context = canvas.getContext('2d');
+
+        const ctx = document.getElementById('myCanvas').getContext('2d');
+        ctx.beginPath();
+        ctx.moveTo(300, 100);
+
+        const startAngle = 35;
+        const endAngle = 325;
+
+        ctx.arc(300, 100, 50, degToRad(startAngle), degToRad(endAngle));
+        ctx.lineTo(300, 100); //
+
+        ctx.fillStyle = 'yellow';
+        ctx.fill();
+
+        ctx.closePath();
+
+        //얼굴 그리기
+
+        ctx.beginPath();
+        ctx.arc(75, 75, 50, 0, Math.PI * 2, true);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(75,75, 35, 0, Math.PI);
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(55,65, 5, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(95,65, 5, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.closePath();
+        
+
+
+        function degToRad(degree) {
+            return degree * Math.PI / 180;
+        }
+
+
+    </script>
+</body>
+
+</html>
