@@ -14,7 +14,7 @@
             border: 1px solid white;
         }
 
-        #scoreText{
+        #scoreText {
             color: white;
         }
     </style>
@@ -32,11 +32,22 @@
             x: 200,
             y: 200,
             size: 30,
-            speed: 1
+            speed: 1,
+            state: 'right'
         }
-        let pacmanState = 0;
-        let startAngle = 0.2 * Math.PI;
-        let endAngle = 1.8 * Math.PI;
+
+        //let startAngle = 0.2 * Math.PI;//right
+        //let endAngle = 1.8 * Math.PI;
+        // let startAngle = 1.2 * Math.PI; //left
+        // let endAngle = 0.8 * Math.PI;
+
+        let startAngle = 1.7 * Math.PI; //up
+        let endAngle = 1.3 * Math.PI;
+
+        // let startAngle = 0.7 * Math.PI; //down
+        // let endAngle = 0.3 * Math.PI;
+
+
         let mouthOpen = 1;
         let directionX = 1;
         let directionY = 0;
@@ -46,11 +57,12 @@
 
 
 
-        function clearScreen(){
+        function clearScreen() {
             context.clearRect(0, 0, canvas.width, canvas.height);
         }
 
         function drawPacman() {
+
             context.beginPath();
             context.moveTo(pacman.x, pacman.y);
             context.arc(pacman.x, pacman.y, pacman.size, startAngle, endAngle);
@@ -59,54 +71,98 @@
             context.closePath();
         }
 
+        let mouthAngle = 0.5;
+        let mouthDir = 1;
+
         function updateMouth() {
-
-            if (startAngle <= 0 || startAngle >= 0.25 * Math.PI) {
-                mouthOpen = -mouthOpen;
+            if (mouthAngle > 0.6 || mouthAngle < 0.05) {
+                mouthDir *= -1;
             }
-            startAngle += 0.01 * mouthOpen;
-            endAngle -= 0.01 * mouthOpen;
+            mouthAngle += 0.01 * mouthDir;
 
-            requestAnimationFrame(drawPacman);
+            const { baseStart, baseEnd } = getBaseAngle();
+            startAngle = baseStart + mouthAngle;
+            endAngle = baseEnd - mouthAngle;
         }
+
+
+        function getBaseAngle() {
+            switch (pacman.state) {
+                case 'right':
+                    return { baseStart: 0, baseEnd: 2 * Math.PI };
+                case 'left':
+                    return { baseStart: Math.PI, baseEnd: Math.PI * 3 };
+                case 'up':
+                    return { baseStart: 1.5 * Math.PI, baseEnd: 3.5 * Math.PI };
+                case 'down':
+                    return { baseStart: 0.5 * Math.PI, baseEnd: 2.5 * Math.PI };
+            }
+        }
+
 
         function updatePosition() {
             pacman.x += pacman.speed * directionX;
             pacman.y += pacman.speed * directionY;
 
-            if (pacman.x >= canvas.width - pacman.size) {
-                pacman.x = canvas.width - pacman.size; //화면 벗어나려고 하면, 그자리에 스탑
+            // if (pacman.x >= canvas.width - pacman.size) {
+            //     pacman.x = canvas.width - pacman.size; //화면 벗어나려고 하면, 그자리에 스탑
+            // }
+
+            // if (pacman.y >= canvas.height - pacman.size) {
+            //     pacman.y = canvas.height - pacman.size;
+            // }
+
+            // if (pacman.x <= pacman.size) {
+            //     pacman.x = pacman.size;
+            // }
+
+            // if (pacman.y <= pacman.size) {
+            //     pacman.y = pacman.size;
+            // }
+
+
+
+            // 오른쪽 → 왼쪽
+            if (pacman.x - pacman.size > canvas.width) {
+                pacman.x = -pacman.size;
             }
 
-            if (pacman.y >= canvas.height - pacman.size) {
-                pacman.y = canvas.height - pacman.size;
+            // 왼쪽 → 오른쪽
+            if (pacman.x + pacman.size < 0) {
+                pacman.x = canvas.width + pacman.size;
             }
 
-            if (pacman.x <= pacman.size) {
-                pacman.x = pacman.size;
+            // 아래 → 위
+            if (pacman.y - pacman.size > canvas.height) {
+                pacman.y = -pacman.size;
             }
 
-            if (pacman.y <= pacman.size) {
-                pacman.y = pacman.size;
+            // 위 → 아래
+            if (pacman.y + pacman.size < 0) {
+                pacman.y = canvas.height + pacman.size;
             }
+
         }
 
         function pacmanMovementHandler(e) {
-            console.log('눌린키: ', e.key);
             switch (e.key) {
                 case 'ArrowRight':
                     directionX = 1;
                     directionY = 0;
+                    pacman.state = 'right';
                     break;
                 case 'ArrowLeft':
+                    pacman.state = 'left';
                     directionX = -1;
                     directionY = 0;
                     break;
                 case 'ArrowUp':
+                    pacman.state = 'up';
                     directionY = -1;
                     directionX = 0;
                     break;
                 case 'ArrowDown':
+                    pacman.state = 'down';
                     directionY = 1;
                     directionX = 0;
                     break;
@@ -115,37 +171,33 @@
         }
         document.addEventListener('keydown', pacmanMovementHandler);
 
-        function generateFood(){
-            for(let i = 0; i < 3; i++){ //원하는 갯수 만큼 food를 채우기.. 지금은 3개
-                const food = {
-                    x: Math.random() * (canvas.width - 40) + 20, //20 ~ canvas.width - 20 사이에 만듦
-                    y: Math.random() * (canvas.height - 40) + 20,
-                    radius: 10,
-                    eaten: false
-                };
-                foods.push(food);
+        function generateFood() {
+            return {
+                x: Math.random() * (canvas.width - 40) + 20, //20 ~ canvas.width - 20 사이에 만듦
+                y: Math.random() * (canvas.height - 40) + 20,
+                radius: 10,
+                eaten: false
             }
         }
 
-        generateFood();
 
-        function drawFood(){
+        function drawFood() {
             foods.forEach(food => {
                 //2. 먹은건 안그린다.
-                if(!food.eaten){
+                if (!food.eaten) {
                     context.beginPath();
-                    context.arc(food.x, food.y, food.radius, 0 , 2 * Math.PI);
+                    context.arc(food.x, food.y, food.radius, 0, 2 * Math.PI);
                     context.fillStyle = 'white';
                     context.fill();
                     context.closePath();
                 }
-                
+
             })
         }
 
         const scoreSpan = document.getElementById('score');
 
-        function checkFoodEatten(){
+        function checkFoodEatten() {
             //1. 나(pacman)의 위치와 먹이가 같은(근처)에 있는지 확인해서, 그놈을 찾아다가 먹은거로 바꾼다.
 
             foods.forEach(food => {
@@ -153,17 +205,23 @@
                 const dx = food.x - pacman.x;
                 const dy = food.y - pacman.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                console.log('두 음식 사이의 거리', dist);
-                if(dist < pacman.size && !food.eaten){
+
+                if (dist < pacman.size && !food.eaten) {
                     food.eaten = true;
                     score += 10;
                     scoreSpan.innerText = score;
                 }
-                
             })
         }
 
-        function drawScore(){
+        function maintainFoodCount() {
+            foods = foods.filter(food => !food.eaten);
+            while (foods.length < 3) {
+                foods.push(generateFood());
+            }
+        }
+
+        function drawScore() {
             context.font = 'italic 40px Times New Roman';
             context.fillStyle = 'red';
             context.fillText(`Score: ${score}`, 50, 50);
@@ -178,6 +236,7 @@
             updateMouth();
             updatePosition();
             checkFoodEatten();
+            maintainFoodCount();
             drawScore();
 
             requestAnimationFrame(animatePacman);
