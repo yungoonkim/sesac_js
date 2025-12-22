@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="aniCanvas" width="400" height="200"></canvas>
+    <script>
+        const canvas = document.getElementById('aniCanvas');
+        const context = canvas.getContext('2d');
+        let directionX = 1;
+        let directionY = 1;
+
+        const ball = {
+            x: 50,
+            y: 50,
+            radius: 10,
+        }
+
+        function drawball(){
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.beginPath();
+            context.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
+            context.fillStyle = '#0080DD';
+            context.fill();
+            context.closePath();
+
+            if(ball.x >= canvas.width - ball.radius || ball.x <= ball.radius){
+                directionX = -directionX;
+            }
+
+            if(ball.y >= canvas.height - ball.radius || ball.y <= ball.radius){
+                directionY = -directionY;
+            }
+
+            ball.x += 1 * directionX;
+            ball.y += 1 * directionY;
+
+            requestAnimationFrame(drawball); //나를 불러서 화면을 갱신.. 모니터 주사율에 맞게?
+        }
+
+        //화면에서 공이 무한 튕기도록 구현하시오...
+
+        drawball();
+        
+    </script>
+</body>
+</html>

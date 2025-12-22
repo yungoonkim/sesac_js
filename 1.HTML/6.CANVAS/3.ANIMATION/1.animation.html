@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="aniCanvas" width="400" height="200"></canvas>
+    <script>
+        const canvas = document.getElementById('aniCanvas');
+        const context = canvas.getContext('2d');
+        let x = 0;
+        let direction = 1;
+
+        function draw(){
+            context.clearRect(0, 0, canvas.width, canvas.height); //캔버스 크기만큼 지우기
+            context.fillStyle = '#FF0000';
+            context.fillRect(x,50,50,50);
+
+            if(x >= canvas.width - 50){
+                //화면 초과하면 아무것도 안함
+                if(x < 50){
+
+                }
+                else{
+                    direction = -1;
+                }
+
+            }
+            else if(x==0){
+                direction = 1;
+            }
+
+            x += 5 * direction;
+
+            requestAnimationFrame(draw);
+            console.log('현재 그리는 곳: ', x);
+        }
+
+        draw();
+    </script>
+</body>
+</html>
