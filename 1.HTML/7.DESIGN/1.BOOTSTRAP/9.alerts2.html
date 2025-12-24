@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- css 가져온다 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- <link href="/css/bootstrap.min.css" rel="stylesheet"> 이렇게도 사용 가능-->
+
+</head>
+
+<body>
+    <h1>부트스트랩 경보(alert)</h1>
+    <!-- 경보 + 닫기 버튼 -->
+     <div class="container my-4">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            닫을 수 있는 알림 메세지입니다.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="CLose"></button>
+        </div>
+     </div>
+
+     <!-- 아래는 자동으로 닫을 예정 -->
+     <div class="container my-4">
+        <div id="auto-close-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+            닫을 수 있는 알림 메세지입니다.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="CLose"></button>
+        </div>
+     </div>
+
+    <!-- script 가져온다 -->
+     <script>
+        setTimeout(() => {
+            const alert = document.getElementById('auto-close-alert');
+            if(alert){
+                alert.classList.remove('show'); //숨김방법1
+                alert.classList.add('fade'); //페이드해서 사라지게 하려고
+                alert.remove();//숨긴방법2
+            }
+        }, 3000);
+     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
