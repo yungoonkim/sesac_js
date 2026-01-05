@@ -1,6 +1,5 @@
 let currentName = '';
 let currentGender = '';
-const select = document.getElementById('select-type');
 
 document.querySelectorAll('.nav-link').forEach(e => {
     e.addEventListener('click', (nav) => {
@@ -16,43 +15,36 @@ document.querySelectorAll('.nav-link').forEach(e => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 검색 버튼 활성화
-    const searchBtn = document.getElementById('search-button');
-    const searchName = document.getElementById('search-name');
+    fetchStores();
 
      // history.state에 저장된 값이 있는지 확인
-    const state = history.state || {};
-    const name = state.name || '';
-    const page = state.page || 1;
-    const gender = state.gender || '';
+    //const state = history.state || {};
+    // const name = state.name || '';
+    // const page = state.page || 1;
+    // const gender = state.gender || '';
 
-    currentName = name;
-    searchName.value = name;
+    // currentName = name;
+    // searchName.value = name;
     
-    currentGender = gender;
-    console.log(gender);
-    if(gender == 'Male'){
-        select.selectedIndex = 1;
-    }
-    else if(gender == 'Female'){
-        select.selectedIndex = 2;
-    }
-    else
-        select.selectedIndex = 0;
+    // currentGender = gender;
+    // console.log(gender);
+    // if(gender == 'Male'){
+    //     select.selectedIndex = 1;
+    // }
+    // else if(gender == 'Female'){
+    //     select.selectedIndex = 2;
+    // }
+    // else
+    //     select.selectedIndex = 0;
     
-    // 사용자를 가져올거야 
-    fetchUsers(currentName, page, currentGender);
+    // // 사용자를 가져올거야 
+    // fetchOrders(currentName, page, currentGender);
 
-    searchBtn.addEventListener('click', () => {
-        currentName = searchName.value;
-        history.replaceState({ name: currentName, gender: currentGender, page: 1 }, '', window.location.pathname);
-        fetchUsers(currentName, 1, currentGender);
-    })
-});
-
-
-select.addEventListener('change', () => {
-    currentGender = select.value;
+    // searchBtn.addEventListener('click', () => {
+    //     currentName = searchName.value;
+    //     history.replaceState({ name: currentName, gender: currentGender, page: 1 }, '', window.location.pathname);
+    //     fetchOrders(currentName, 1, currentGender);
+    // })
 });
 
 
@@ -63,20 +55,19 @@ document.getElementById('pagination').addEventListener('click', (e) => {
         const page = Number(e.target.dataset.page);
         // history.state + URL 변경
         history.pushState({ name: currentName, gender: currentGender, page: page }, '', `/users?page=${page}&gender=${currentGender}`);
-        fetchUsers(currentName, page, currentGender);
+        fetchStores(currentName, page, currentGender);
     }
 });
 
 
 
-function fetchUsers(name, page, gender) {
-    const queryString = `?name=${encodeURIComponent(name)}&page=${page}&gender=${gender}`;
-    console.log(queryString);
-
+function fetchStores() {
     // 백엔드에 요청을 고민...
-    fetch(`/api/users${queryString}`)
+    fetch(`/api/stores`)
         .then(response => response.json())
         .then(data => {
+
+            console.log(data);
             // 테이블에 그려라
             renderTable(data.data);
             // 페이지네이션을 그려라
@@ -118,11 +109,9 @@ function renderTable(data) {
         const headerRow = document.createElement('tr');
         headers.forEach(h => {
             // 원하는거 제거
-            if (h != 'Address') {
-                const one_th = document.createElement('th');
-                one_th.textContent = h;
-                headerRow.appendChild(one_th);
-            }
+            const one_th = document.createElement('th');
+            one_th.textContent = h;
+            headerRow.appendChild(one_th);
         });
 
         // 만드걸 tableheader의 child로 append한다.
@@ -132,19 +121,16 @@ function renderTable(data) {
         // 리스트만큼 돌면서 tr/td를 그리는것..
         data.forEach(row => {
             const bodyRow = document.createElement('tr');
-
-            // 해당 row 에다가 이벤트
-            bodyRow.addEventListener('click', () => {
-                console.log('해당 줄 클릭됨');
-                window.location = `/users/${row.Id}`  // 브라우저 창에 주소를 넣어서 이동하는 방법
-            });
-
             for (const [key, value] of Object.entries(row)) {
-                if (key != 'Address') {
-                    const one_td = document.createElement('td');
-                    one_td.textContent = value;
-                    bodyRow.appendChild(one_td);
+                const one_td = document.createElement('td');
+                if(key === 'Id'){
+                    let link = document.createElement('a');
+                    link.href = `/store_detail/${value}`;
+                    link.textContent = value;
+                    one_td.appendChild(link);
                 }
+                else one_td.textContent = value;
+                bodyRow.appendChild(one_td);
             }
 
             // 만든걸 tablebody의 child로 append한다.

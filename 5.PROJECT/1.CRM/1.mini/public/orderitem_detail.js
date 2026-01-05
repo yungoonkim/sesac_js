@@ -1,5 +1,5 @@
-const userId = window.location.pathname.split('/').pop(); // 주소를 가져와서 / 로 짤라서 맨 뒤에꺼 반환
-//console.log('userId: ', userId);
+const orderId = window.location.pathname.split('/').pop(); // 주소를 가져와서 / 로 짤라서 맨 뒤에꺼 반환
+console.log('orderId: ', orderId);
 
 document.querySelectorAll('.nav-link').forEach(e => {
     e.addEventListener('click', (nav) => {
@@ -14,15 +14,49 @@ document.querySelectorAll('.nav-link').forEach(e => {
     })
 });
 
-function fetchUserDetail() {
-    fetch(`/api/users/${userId}`)
+function fetchOrderItemDetail() {
+    fetch(`/api/orderitem_detail/${orderId}`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
             renderTable(data);
-            renderOrderInfo(data);
         })
 }
+
+// function renderTable(data) {
+//     const tableHeader = document.getElementById('table-header');
+//     const tableBody = document.getElementById('table-body');
+
+//     tableHeader.innerHTML = '';
+//     tableBody.innerHTML = '';
+
+//     const headers = Object.keys(data);
+//     console.log(headers);
+//     const headerRow = document.createElement('tr');
+//     headers.forEach(h => {
+//         const one_th = document.createElement('th');
+//         one_th.textContent = h;
+//         headerRow.appendChild(one_th);
+//     });
+
+//     tableHeader.appendChild(headerRow);
+
+//     const bodyRow = document.createElement('tr');
+//     for (const [key, value] of Object.entries(data)) {
+//         const one_td = document.createElement('td');
+//         if (key == 'OrderId' || key == 'ItemId') {
+//             let link = document.createElement('a');
+//             link.href = key === 'OrderId' ? `/order_detail/${value}` : `/item_detail/${value}`;
+//             link.textContent = value;
+//             one_td.appendChild(link);
+//         }
+//         else one_td.textContent = value;
+
+//         bodyRow.appendChild(one_td);
+//     }
+
+//     tableBody.appendChild(bodyRow);
+// }
 
 function renderTable(data) {
     // [{}] 데이터가 왕창 왔을꺼고.. 이걸 그리는걸 고민...
@@ -39,11 +73,10 @@ function renderTable(data) {
         const headers = Object.keys(data[0]);
         const headerRow = document.createElement('tr');
         headers.forEach(h => {
-            const one_th = document.createElement('th');
-            if (h !== 'Id' && h !== 'OrderAt' && h !== 'OrderId' && h !== 'StoreId') {
+            // 원하는거 제거
+                const one_th = document.createElement('th');
                 one_th.textContent = h;
                 headerRow.appendChild(one_th);
-            }
         });
 
         // 만드걸 tableheader의 child로 append한다.
@@ -51,63 +84,23 @@ function renderTable(data) {
 
         // 2. 테이블의 바디 생성
         // 리스트만큼 돌면서 tr/td를 그리는것..
-        //data.forEach(row => {
-        const bodyRow = document.createElement('tr');
-
-        for (const [key, value] of Object.entries(data[0])) {
-            const one_td = document.createElement('td');
-            if (key !== 'Id' && key !== 'OrderAt' && key !== 'OrderId' && key !== 'StoreId') {
-                one_td.textContent = value;
-                bodyRow.appendChild(one_td);
-            }
-        }
-
-        tableBody.appendChild(bodyRow);
-        //});
-
-    } else {
-        tableBody.innerHTML = ' --- 표시할 데이터가 없습니다 --- ';
-    }
-}
-
-function renderOrderInfo(data) {
-    const tableHeader = document.getElementById('table-h-order');
-    const tableBody = document.getElementById('table-b-order');
-
-    tableHeader.innerHTML = '';
-    tableBody.innerHTML = '';
-
-    if (data.length > 0) {
-        const headers = Object.keys(data[0]);
-
-        const headerRow = document.createElement('tr');
-        headers.forEach(h => {
-            const one_th = document.createElement('th');
-            if (h === 'OrderAt' || h === 'OrderId' || h === 'StoreId') {
-                one_th.textContent = h;
-                headerRow.appendChild(one_th);
-            }
-        });
-
-        tableHeader.appendChild(headerRow);
-
         data.forEach(row => {
             const bodyRow = document.createElement('tr');
-            
+
             for (const [key, value] of Object.entries(row)) {
                 const one_td = document.createElement('td');
-                if (key === 'OrderId' || key === 'StoreId') {
+                if (key == 'OrderId' || key == 'ItemId') {
                     let link = document.createElement('a');
-                    link.href = key === 'OrderId' ? `/orderitem_detail/${value}` : `/store_detail/${value}`;
+                    link.href = key === 'OrderId' ? `/order_detail/${value}` : `/item_detail/${value}`;
                     link.textContent = value;
                     one_td.appendChild(link);
-                    bodyRow.appendChild(one_td);
                 }
-                else if(key === 'OrderAt'){
-                    one_td.textContent = value;
-                    bodyRow.appendChild(one_td);
-                }
+                else one_td.textContent = value;
+
+                bodyRow.appendChild(one_td);
             }
+
+            // 만든걸 tablebody의 child로 append한다.
             tableBody.appendChild(bodyRow);
         });
 
@@ -116,5 +109,4 @@ function renderOrderInfo(data) {
     }
 }
 
-
-fetchUserDetail();
+fetchOrderItemDetail();

@@ -24,12 +24,12 @@ app.get('/api/posts/:id', (req, res) => {
 });
 
 //2. post 생성
-app.post('/api/posts/:id', (req, res) => {
+app.post('/api/create', (req, res) => {
 
 });
 
 //3. put 수정
-app.put('/api/post/:id', (req, res) => {
+app.put('/api/modify/:id', (req, res) => {
     
 });
 

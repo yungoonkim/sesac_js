@@ -14,6 +14,9 @@
     <input type="number" id="getId" placeholder="ex)1">
     <button id="loadButton">조회</button>
     <h2>3. 생성</h2>
+    <span>Title: <input type="text" id="inputTitle"></span><br>
+    <span>Body: <input type="text" id="inputBody"></span>
+    <button id="createButton">생성</button>
     <h2>4. 수정</h2>
     <h2>5. 삭제</h2>
     <input type="number" id="deleteId" placeholder="ex)1">
@@ -22,6 +25,7 @@
     <div id='result'></div>
 
     <script>
+
         document.getElementById('loadAllButton').addEventListener('click', async () => {
             const response = await fetch("/api/posts");
             const data = await response.json();
@@ -55,6 +59,21 @@
             const result = document.getElementById('result');
             result.innerHTML = JSON.stringify(data);
 
+        });
+
+        document.getElementById('createButton').addEventListener('click', () => {
+            const title = document.getElementById('inputTitle').value;
+            const body = document.getElementById('inputBody').value;
+
+            fetch(`/api/create`, {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body:JSON.stringify({title, body})
+            })
+                .then(res => res.json())
+                .then(data => {
+                    
+                });
         });
 
 
