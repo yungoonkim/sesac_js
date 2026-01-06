@@ -48,8 +48,6 @@ app.post('/login', (req, res) => {
 
 app.get('/logout', (req, res) => {
     //req.session.destroy(); //이렇게만 해도됨.
-
-
     req.session.destroy((err) => {
         if(err){
             console.log('세션 삭제 실패 ', err);
