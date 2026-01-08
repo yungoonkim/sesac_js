@@ -116,8 +116,8 @@ app.get('/api/orders', (req, res) => {
     let totalPages = 0;
 
     const queryCount = `SELECT COUNT(*) AS count FROM orders`;
+
     db.get(queryCount, (err, row) => {
-        console.log(row);
         const searchCount = row.count;
         totalPages = Math.ceil(searchCount / itemsPerPage);
         const query = `SELECT * FROM orders LIMIT ? OFFSET ?`;
@@ -313,9 +313,6 @@ app.get('/api/item_detail/:id', (req, res) => {
 
 app.get('/api/store_detail/:id', (req, res) => {
     const storeId = req.params.id;
-    //const month = req.query.rev_month;
-
-    //console.log(storeId, month);
     const query = `
        SELECT
             s.Name, s.Type, s.Address,
@@ -344,38 +341,6 @@ app.get('/api/store_detail/:id', (req, res) => {
         res.json(row);
     });
 });
-
-// app.get('/api/store_detail', (req, res) => {
-//     console.log('/api/store_detail 라우터');
-//     const month = req.query.rev_month;
-//     console.log(month);
-//     const storeId = req.query.id;
-//     const query = `
-//     SELECT
-//         o.OrderAt                   AS month,
-//         SUM(i.UnitPrice)            AS revenue,
-//         COUNT(oi.ItemId)            AS count
-//     FROM orders o
-//     JOIN order_items oi ON oi.OrderId = o.Id
-//     JOIN items i ON i.Id = oi.ItemId
-//     WHERE o.StoreId = ?
-//     AND o.OrderAt LIKE ?`;
-
-//     db.all(query, [storeId, `${month}%`], (err, row) => {
-//         if (err) {
-//             console.error('사용자 조회 실패: ', err);
-//             return res.status(500).json({ error: '사용자 조회에 실패하였습니다.' });
-//         }
-
-//         if (!row) {
-//             console.error('사용자 조회 실패: ', err);
-//             return res.status(404).json({ error: '사용자가 존재하지 않습니다.' });
-//         }
-//         res.json(row);
-//         console.log(row);
-//     });
-// });
-
 
 app.listen(port, () => {
     console.log(`Server is ready ${port}`);

@@ -15,7 +15,7 @@ function Parent() {
         <div>
             <h2>부모</h2>
             <p>자식에게 받은 값: {message}</p>
-            <Child onSend={handleMessage} />
+            <Child sendMessageToParent={handleMessage} />
         </div>
     );
 }

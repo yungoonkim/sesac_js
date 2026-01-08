@@ -9,6 +9,7 @@ const users = [
 ];
 
 async function insertUsers(){
+    
     for(const user of users){
         const hashedPassword = await bcrypt.hash(user.password, 10);
         db.run(

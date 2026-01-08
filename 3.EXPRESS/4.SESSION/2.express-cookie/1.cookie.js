@@ -14,10 +14,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/dashboard', (req, res) => {
-    const {myCookie , username} = req.cookies;
-    console.log(myCookie);
+    const {mycookie , username} = req.cookies;
+    console.log(mycookie);
     console.log(username);
-    res.send(`당신은 ${username} 입니다. 그리고 ${myCookie}도 가져오셨네요`);
+    res.send(`당신은 ${username} 입니다. 그리고 ${mycookie}도 가져오셨네요`);
 });
 
 app.listen(port, () => {

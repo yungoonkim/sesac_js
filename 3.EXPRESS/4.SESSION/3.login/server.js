@@ -4,6 +4,7 @@ const path = require('path');
 const app = express();
 
 app.use(express.urlencoded({extended: false}));
+
 app.use(session({
     secret: 'this-is-my-secret-password',
     resave: false,

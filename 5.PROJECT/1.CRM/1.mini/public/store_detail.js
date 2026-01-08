@@ -105,19 +105,10 @@ function renderMonthRevenue(data) {
                         });
                 });
 
-                // if(key !== 'Name' && key !== 'Type' && key !== 'Address'){
-
-                //     if(key === 'Month'){
-                //         let link = document.createElement('a');
-                //         const queryString = `${storeId}?rev_month=${encodeURIComponent(value)}`;
-                //         link.href = `/api/store_detail/${queryString}`;
-                //         link.textContent = value;
-                //         one_td.appendChild(link);
-                //     }
-                //     else one_td.textContent = value;
+                if(key !== 'Name' && key !== 'Type' && key !== 'Address'){
                     one_td.textContent = value;     
                     bodyRow.appendChild(one_td);
-                //}
+                }
             }
 
             // 만든걸 tablebody의 child로 append한다.
