@@ -1,0 +1,31 @@
+import { useState, useEffect } from "react";
+import { fetchUsers } from "../api/dummyUsersApi.js";
+import { Link } from 'react-router-dom';
+
+export default function Users() {
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchUsers()
+            .then((data) => {
+                setUsers(data);
+                setLoading(false);
+            })
+    }, []); //최초 한번만 실행
+
+    /* 아래는 DOM 랜더링 코드만 추가할 것 */
+    if(loading) return <p>로딩 중...</p>
+    return (
+        <div>
+            <h1>Users</h1>
+            <ul>
+                {users.map((u) => (
+                    <li key={u.id}>
+                        <Link to={`/users/${u.id}`}>{u.name}</Link>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
+}

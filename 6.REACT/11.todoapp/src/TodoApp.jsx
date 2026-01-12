@@ -70,12 +70,12 @@ export default function TodoApp() {
   }
 
   return (
-    <>
+    <>            
       <div style={{ padding: 16, maxWidth: 500 }}>
         <h2>할일 목록</h2>
         <span>전체:{count} / 완료: {completed}</span>
         <TodoForm text={text} setText={setText} onAdd={addTodo} />
-        <input type="checkbox" onChange={checkState} />
+        <input type="checkbox" totalcheck={check} onChange={(e) => checkState(e.target.checked)} />
         <span> 완료 항목 숨기기 </span>
         <TodoLsit todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} maincheck={check} />
       </div>
