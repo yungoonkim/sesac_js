@@ -7,6 +7,8 @@ import About from './pages/About.jsx';
 import NotFound from './pages/NotFound.jsx';
 import UserDetail from './pages/UserDetail.jsx';
 import Posts from './pages/Posts.jsx';
+import PostDetail from './pages/PostDetail.jsx';
+
 
 function App() {
 
@@ -24,6 +26,7 @@ function App() {
                 <Route path="users" element={<Users />} />
                 <Route path="users/:userId" element={<UserDetail />} />
                 <Route path="posts" element={<Posts />} />
+                <Route path="posts/:postId" element={<PostDetail />} />
 
                 {/* 사용자들 (/users, /:userId)를 계층구조로 봐서 parent/child 관계 */}
                 {/* <Route path='users'>

@@ -1,4 +1,4 @@
-const BASE_RUL = 'https://jsonplaceholder.typicode.com';
+const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
 // signal은 비동기 오퍼레이션을 중간에 중단할 수 있는 조건 변수 
 async function requestJson(url){
@@ -12,15 +12,15 @@ async function requestJson(url){
 }
 
 export async function fetchUsers(){
-    return requestJson(`${BASE_RUL}/users`);
+    return requestJson(`${BASE_URL}/users`);
 }
 
 export async function fetchUserById(userId){
-    return requestJson(`${BASE_RUL}/users/${userId}`);
+    return requestJson(`${BASE_URL}/users/${userId}`);
 }
 
 export async function deleteUserById(userId){
-    const res = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`, {
+    const res = await fetch(`${BASE_URL}/users/${userId}`, {
         method: 'DELETE',
     })
 
@@ -30,6 +30,15 @@ export async function deleteUserById(userId){
 }
 
 export async function fetchPosts(){
-    return requestJson(`${BASE_RUL}/posts`);
+    return requestJson(`${BASE_URL}/posts`);
 }
+
+export async function fetchPostById(postId){
+   return requestJson(`${BASE_URL}/posts/${postId}`);
+}
+
+export async function commentsPostById(postId){
+     return requestJson(`${BASE_URL}/posts/${postId}/comments`);
+}
+
 

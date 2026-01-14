@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { fetchPosts } from "../api/UsersApi";
 const MAXCOUNT = 20;
 
@@ -29,8 +30,7 @@ export default function Posts(){
             <ul>
                 {currentPosts.map(p => (
                     <li key={p.id}>
-                        <h3>{p.title}</h3>
-                        <p>{p.body}</p>
+                        <Link to={`/posts/${p.id}`}>{p.title}</Link>
                     </li>
                 ))}
             </ul>

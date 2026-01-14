@@ -1,7 +1,12 @@
-export default function TodoLsit({ todos, onToggle, onDelete, totalcheck }) {
+export default function TodoLsit({ todos, onToggle, onDelete, maincheck }) {
+    
+    const visibleTodos = maincheck
+    ? todos.filter(t => !t.done) // 완료 항목 숨기기
+    : todos;
+
     return (
         <ul style={{ marginTop: 12, paddingLeft: 16}} >
-            {!totalcheck && todos.map((t) => (
+            {visibleTodos.map((t) => (
                 <li key={t.id} style={{ paddingBottom: 8 }}>
                     <input 
                         type="checkbox" 

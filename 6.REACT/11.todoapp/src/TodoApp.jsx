@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import TodoForm from './components/TodoForm.jsx';
 import TodoLsit from './components/TodoList.jsx';
+import TodoCompleted from './components/TodoCompleted.jsx';
 
 export default function TodoApp() {
 
@@ -17,8 +18,8 @@ export default function TodoApp() {
   //Controlled 상태
   const [text, setText] = useState('');
 
-  function checkState(){
-    check === true ? setCheck(true) : setCheck(false);
+  function checkState(state){
+    setCheck(state);
   }
 
   function addTodo(e) {
@@ -75,8 +76,7 @@ export default function TodoApp() {
         <h2>할일 목록</h2>
         <span>전체:{count} / 완료: {completed}</span>
         <TodoForm text={text} setText={setText} onAdd={addTodo} />
-        <input type="checkbox" totalcheck={check} onChange={(e) => checkState(e.target.checked)} />
-        <span> 완료 항목 숨기기 </span>
+        <TodoCompleted totalchekd={check} onChange={checkState} />
         <TodoLsit todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} maincheck={check} />
       </div>
     </>
