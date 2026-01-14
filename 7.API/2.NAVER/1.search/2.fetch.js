@@ -1,0 +1,49 @@
+//const request = require('request');
+const dotenv = require('dotenv');
+
+dotenv.config({ quiet: true });
+
+const text = '자바스크립트';
+const encodeText = encodeURIComponent(text);
+
+const url = `https://openapi.naver.com/v1/search/blog?query=${encodeText}`; //기본 값 json
+// const url = 'https://openapi.naver.com/v1/search/blog.json'
+// const url = 'https://openapi.naver.com/v1/search/blog.xml'
+
+// console.log(url);
+
+const headers = {
+    'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID,
+    'X-Naver-Client-Secret': process.env.NAVER_CLIENT_SECRET
+};
+
+async function fetchNaver(){
+
+    const res = await fetch(url, {
+        method: 'GET',
+        headers: headers,
+    });
+
+    if(!res.ok){
+        throw new Error('요청에 실패하였습니다.');
+    }
+
+    const data = await res.json();
+    console.log(data);
+}
+
+fetchNaver();
+
+// request.get({
+//     url: url,
+//     headers: headers
+// }, (error, response, body) => {
+//     if(error){
+//         console.error(error);
+//     }
+//     else{
+//         const data = JSON.parse(body);
+//         console.log(data);
+//         console.log(response.statusCode, response.statusMessage);
+//     }
+// });
