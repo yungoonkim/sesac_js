@@ -60,7 +60,7 @@ app.get('/api/search', async (req, res) => {
     const page = parseInt(req.query.page || '1', 10);
     const display = parseInt(req.query.display || '10', 10);
 
-    console.log(text);
+    console.log("node.js Server: ", text);
     //입력 인자를 처리해서 page, display 받아오기..
     try{
         const result = await fetchNaverPage(text, page, display);

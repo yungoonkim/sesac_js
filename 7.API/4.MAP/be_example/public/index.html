@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 480px;
+        }
+        .marker-label {
+            background-color: transparent;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([37.5665, 126.9780], 11);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            {}).addTo(map);
+
+        function calculateMarkerRadius(population) {
+            let minRadius = 20;
+            let maxRadius = 80;
+
+            let minPop = 100_000;
+            let maxPop = 1_000_000;
+
+            let radius = minRadius + ((population - minPop) / (maxPop - minPop)) * (maxRadius - minRadius);
+
+            return radius;
+        }
+
+        fetch('/api/seoul')
+            .then(resp => resp.json())
+            .then(data => {
+                //console.log(data);
+                for (let i = 0; i < data.length; i++) {
+                    let pop = parseInt(data[i].population);
+                    let radius = calculateMarkerRadius(pop); //인구수에 따라서 적정하게 변경
+
+                    let marker = L.circleMarker([data[i].lat, data[i].lng], {
+                        radius: radius,
+                        fillColor: 'red',
+                        color: 'white',
+                        weight: 1,
+                        fillOpacity: 0.5
+                    }).addTo(map);
+
+                    marker.bindTooltip(data[i].district, {
+                        permanent: true,
+                        direction: 'center',
+                        className: 'marker-label'
+                    })
+
+                    marker.bindPopup(`<b>${data[i].district}</b><br>인구: ${data[i].population}`);
+
+                }
+            })
+
+
+        map.on('zoomend', () => {
+            const currentZoom = map.getZoom();
+
+            map.eachLayer(layer => {
+                if (layer instanceof L.CircleMarker && layer.baseRadius) {
+                    // 줌 1 증가 → 배율 적용 (완화 계수 0.7)
+                    const scale = Math.pow(2, (currentZoom - baseZoom) * 0.7);
+                    layer.setRadius(layer.baseRadius * scale);
+                }
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>
